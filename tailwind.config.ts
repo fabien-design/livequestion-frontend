@@ -1,4 +1,7 @@
+import { Open_Sans, Playfair_Display } from "next/font/google";
 import type { Config } from "tailwindcss";
+
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const config: Config = {
   content: [
@@ -19,6 +22,10 @@ const config: Config = {
         },
       }
     },
+    fontFamily: {
+      Open_Sans: ["Open Sans", "sans-serif", defaultTheme.fontFamily.sans],
+      Playfair_Display: ["Playfair Display", "serif"],
+    }
   },
   plugins: [],
 };

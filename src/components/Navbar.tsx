@@ -12,7 +12,7 @@ const NavBar = () => {
         <nav className="bg-primary text-white">
             <MaxWidthWrapper className="flex items-center justify-between py-4">
                 <div className="flex items-center space-x-4">
-                    <h1 className="font-bold text-2xl">Livequestion</h1>
+                    <h1 className="font-bold text-2xl font-Playfair_Display">Livequestion</h1>
                     <span className="text-white">|</span>
                     <Link href="/" className={cn("", {
                         "underline underline-offset-4": pathname.endsWith("/")
