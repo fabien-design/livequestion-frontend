@@ -1,28 +1,18 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
+import { QuestionHome } from "../query/question.query";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
-    imgSrc?: string;
-    question: string;
-    answers: number;
-    category: string;
-    date: string;
-    user: string;
+type QuestionProps = {
+    question: QuestionHome;
     isBig?: boolean;
 }
 
 const HorizontalCard = ({
-    imgSrc,
     question,
-    answers,
-    category,
-    date,
-    user,
-    isBig = false,
-    ...props
-}: CardProps) => {
+    isBig = false
+}: QuestionProps) => {
     const currentDate = new Date();
-    const creationDate = new Date(date);
+    const creationDate = new Date(question.createdAt);
     const timeDiff = Math.abs(currentDate.getTime() - creationDate.getTime());
     const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     const hoursDiff = Math.ceil(timeDiff / (1000 * 60 * 60));
@@ -45,10 +35,9 @@ const HorizontalCard = ({
             className={cn("flex flex-col md:flex-row mb-4 flex-[1,1,auto]", {
                 "md:flex-row": isBig,
             })}
-            {...props}
         >
             <img
-                src={imgSrc}
+                src={question.images?.name != null ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}` : ""}
                 alt="image of the question"
                 className={cn(
                     "object-cover w-full rounded-[30px] aspect-[1.6/1]",
@@ -66,7 +55,7 @@ const HorizontalCard = ({
                         "text-sm": !isBig,
                     })}
                 >
-                    <p className="font-bold">{category}</p>
+                    <p className="font-bold">{question.category.name}</p>
                     <span className="mx-4 font-bold">&#903;</span>
                     <p>{timeAgo}</p>
                 </div>
@@ -76,7 +65,7 @@ const HorizontalCard = ({
                         "text-lg": !isBig,
                     })}
                 >
-                    {question}
+                    {question.title}
                 </h3>
                 <div className="flex items-center text-primary">
                     <p>
@@ -86,9 +75,9 @@ const HorizontalCard = ({
                                 "text-sm": !isBig,
                             })}
                         >
-                            {answers}
-                        </span>{" "}
-                        réponses - Par {user}
+                            {question.answersCount}
+                        </span>{" "} 
+                        réponses - Par {question.author.username}
                     </p>
                 </div>
             </div>

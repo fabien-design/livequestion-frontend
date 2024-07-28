@@ -1,28 +1,20 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
+import { QuestionHome } from "../query/question.query";
+import { isBigInt64Array } from "util/types";
+import Image from "next/image";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
-    imgSrc?: string;
-    question: string;
-    answers: number;
-    category: string;
-    date: string;
-    user: string;
+type QuestionProps = {
+    question: QuestionHome;
     isBig?: boolean;
 }
 
 const VerticalCard = ({
-    imgSrc,
     question,
-    answers,
-    category,
-    date,
-    user,
     isBig = false,
-    ...props
-}: CardProps) => {
+}: QuestionProps) => {
     const currentDate = new Date();
-    const creationDate = new Date(date);
+    const creationDate = new Date(question.createdAt);
     const timeDiff = Math.abs(currentDate.getTime() - creationDate.getTime());
     const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     const hoursDiff = Math.ceil(timeDiff / (1000 * 60 * 60));
@@ -47,12 +39,11 @@ const VerticalCard = ({
                 "max-w-[250px] sm:max-w-[350px] md:max-w-[500px] lg:max-w-[600px]":
                     isBig, // 600px max width
             })}
-            {...props}
         >
             <div className="relative"> 
-                <span className="py-2 px-4 md:px-6 text-white text-center text-sm bg-[#AD0569]/90 rounded-full absolute top-2 right-2">{category}</span>
+                <span className="py-2 px-4 md:px-6 text-white text-center text-sm bg-[#AD0569]/90 rounded-full absolute top-2 right-2">{question.category.name}</span>
                 <img
-                    src={imgSrc}
+                    src={question.images?.name != null ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}` : ""}
                     alt="image of the question"
                     className={cn(
                         "object-cover w-full rounded-[30px] aspect-[1.6/1]",{}
@@ -66,7 +57,7 @@ const VerticalCard = ({
                         "text-lg": !isBig,
                     })}
                 >
-                    {question}
+                    {question.title}
                 </h3>
                 <div className="flex items-center text-primary">
                     <p className={cn("",  {
@@ -76,9 +67,9 @@ const VerticalCard = ({
                         <span
                             className={cn("font-semibold",)}
                         >
-                            {answers}
+                            {question.answersCount}
                         </span>{" "}
-                        réponses - Par {user} -{" "}
+                        réponses - Par {question.author.username} -{" "}
                         {timeAgo}
                     </p>
                 </div>
