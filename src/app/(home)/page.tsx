@@ -1,36 +1,40 @@
-"use client"
+"use client";
 
 import HorizontalCard from "@/features/components/HorizontalCard";
 import MaxWidthWrapper from "@/features/components/MaxWidthWrapper";
 import VerticalCard from "@/features/components/VerticalCard";
-import { getLatestQuestions, getMostAnsweredQuestion, QuestionHome } from "@/features/query/question.query";
-import Image from "next/image";
+import {
+    getLatestQuestions,
+    getMostAnsweredQuestion,
+    QuestionHome,
+} from "@/features/query/question.query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { QuestionLayout } from "@/features/question/QuestionLayout";
 import { Question } from "@/features/question/Question";
+import { Skeleton } from "@nextui-org/skeleton";
 
 // bg-primary/80
 
 export default function Home() {
-
     const [questions, setQuestions] = useState<QuestionHome[]>([]);
-    const [mostAnsweredQuestion, setMostAnsweredQuestion] = useState<QuestionHome | null>(null);
-
+    const [mostAnsweredQuestion, setMostAnsweredQuestion] =
+        useState<QuestionHome | null>(null);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
+        setIsLoaded(true);
         const fetchQuestions = async () => {
             try {
-                const latestQuestions = await getLatestQuestions();
-                setQuestions(latestQuestions);
                 const mostAnsweredQuestion = await getMostAnsweredQuestion();
                 setMostAnsweredQuestion(mostAnsweredQuestion);
+                const latestQuestions = await getLatestQuestions();
+                setQuestions(latestQuestions);
+                setIsLoaded(false);
             } catch (error) {
                 console.error("Error fetching questions with api:", error);
             }
-
         };
-
 
         fetchQuestions();
     }, []);
@@ -41,7 +45,6 @@ export default function Home() {
             <section>
                 <MaxWidthWrapper className="h-full">
                     <div className="w-full h-full ">
-
                         {mostAnsweredQuestion && (
                             <Link href={`/question/${mostAnsweredQuestion.id}`}>
                                 <HorizontalCard
@@ -68,10 +71,17 @@ export default function Home() {
                         </Link>
                     </div>
                     <div className="flex justify-between py-12 gap-12 md:gap-16 lg:gap-24">
-                        {questions.map((q) => (
-                            console.log(q),
-                            <Question question={q} key={`lts_question_${q.id}`}></Question>
-                        ))}
+                        {questions.map(
+                            (q) => (
+                                console.log(q),
+                                (
+                                    <Question
+                                        question={q}
+                                        key={`lts_question_${q.id}`}
+                                    ></Question>
+                                )
+                            )
+                        )}
                     </div>
                 </MaxWidthWrapper>
             </section>
