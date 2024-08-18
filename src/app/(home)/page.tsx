@@ -13,6 +13,7 @@ import { Suspense, useEffect, useState } from "react";
 import { QuestionLayout } from "@/features/question/QuestionLayout";
 import { Question } from "@/features/question/Question";
 import { Skeleton } from "@nextui-org/skeleton";
+import { getUserSession } from "./action";
 
 // bg-primary/80
 
@@ -21,6 +22,7 @@ export default function Home() {
     const [mostAnsweredQuestion, setMostAnsweredQuestion] =
         useState<QuestionHome | null>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
 
     useEffect(() => {
         setIsLoaded(true);
@@ -35,6 +37,9 @@ export default function Home() {
                 console.error("Error fetching questions with api:", error);
             }
         };
+        const user = getUserSession();
+        console.log(user.then((res) => console.log(res)));
+
 
         fetchQuestions();
     }, []);
