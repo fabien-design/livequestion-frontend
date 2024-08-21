@@ -1,9 +1,10 @@
 "use server"
 
-import { decrypt, getSession } from "@/lib";
+import { getSession, parseJwt } from "@/lib";
+import { JwtPayload } from '@/types/jwt';
 
-export async function getUserSession() {
-    const session = getSession();
+export async function getUserSession(): Promise<JwtPayload | null> {
+    const session = await getSession();
     if (!session) return null;
-    return await decrypt(await session);
+    return parseJwt(session);
 }

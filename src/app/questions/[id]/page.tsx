@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import React from 'react'
 
 const Page = async ({ params }: {params: {id: string|number}}) => {
+
     // make db call
     const { id } = params;
     

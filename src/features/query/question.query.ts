@@ -1,3 +1,4 @@
+import { getSession } from "@/lib";
 import { AnswerDetail } from "./answer.query";
 import { AuthorDetail, AuthorUndetailed } from "./author.query";
 
@@ -31,20 +32,37 @@ export const getMostAnsweredQuestion = async () => {
     }
 };
 
-export const findQuestionById = async (id: string|number) => {
+export const findQuestionById = async (id: string | number) => {
     try {
+        const token = await getSession();
+        if (!token || !token) {
+            throw new Error("User is not authenticated");
+        }
+
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions/${id}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions/${id}`, 
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`, // Assurez-vous que 'token' est une propriété de session
+                },
+            }
         );
+
+        console.log(response);
+
+        if (!response.ok) {
+            return false;
+            throw new Error(`Error fetching question with id ${id}: ${response.statusText}`);
+        }
+        
         const data = await response.json();
-        // Process the data or return it as needed
         return data;
     } catch (error) {
-        // Handle any errors that occur during the request
-        console.error("Error fetching latest questions:", error);
+        console.error("Error fetching question by ID:", error);
         throw error;
     }
-}
+};
 
 
 export type QuestionHome = {

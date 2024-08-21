@@ -2,14 +2,16 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { cookies } from "next/headers";
 import { handleLogin } from "./action";
+import { useToast } from "@/components/ui/use-toast"
+
 
 export default function LoginPage() {
     const router = useRouter();
     const [error, setError] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { toast } = useToast();
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -17,8 +19,7 @@ export default function LoginPage() {
         const formData = new FormData(event.currentTarget);
         const username = formData.get("email_or_username");
         const password = formData.get("password");
-        if (typeof username !== "string" || typeof password !== "string")
-            return;
+        if (typeof username !== "string" || typeof password !== "string") return;
 
         try {
             const response = await fetch(
@@ -32,21 +33,36 @@ export default function LoginPage() {
 
             if (response.ok) {
                 let data = await response.json();
-                await handleLogin(data);
-                router.push('/')
-                
-                
+                let isCookieCreated =  await handleLogin(data.token);
+                if (isCookieCreated) {
+                    router.refresh();
+                    router.push('/');
+
+                }
+
             } else {
-                // Handle errors
+                // Gestion des erreurs
                 let data = await response.json();
-                setError(data.error);
-                console.log(data.error);
+                setError(data.message);
+                console.log(data.message);
+                toast({
+                    title: "Login failed",
+                    description: data.message,
+                    duration: 5000,
+                    variant: "destructive",
+                });
                 setUsername("");
                 setPassword("");
             }
         } catch (err) {
             console.error("An error occurred:", err);
             setError("An error occurred while processing your request.");
+            toast({
+                title: "An error occurred",
+                description: "Something went wrong during the login process.",
+                duration: 5000,
+                variant: "destructive",
+            });
         }
     }
 
@@ -71,5 +87,6 @@ export default function LoginPage() {
             />
             <button type="submit">Login</button>
         </form>
+        
     );
 }

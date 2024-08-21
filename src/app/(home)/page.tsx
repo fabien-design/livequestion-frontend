@@ -14,6 +14,7 @@ import { QuestionLayout } from "@/features/question/QuestionLayout";
 import { Question } from "@/features/question/Question";
 import { Skeleton } from "@nextui-org/skeleton";
 import { getUserSession } from "./action";
+import { cookies } from "next/headers";
 
 // bg-primary/80
 
@@ -36,15 +37,18 @@ export default function Home() {
             } catch (error) {
                 console.error("Error fetching questions with api:", error);
             }
+
+            const user = await getUserSession();
+            if (user) {
+                console.log("User", user);
+            }
         };
-        const user = getUserSession();
-        console.log(user.then((res) => console.log(res)));
-
-
+        
         fetchQuestions();
     }, []);
+   
 
-    console.log(mostAnsweredQuestion);
+
     return (
         <div className="bg-gray-50">
             <section>
@@ -78,7 +82,6 @@ export default function Home() {
                     <div className="flex justify-between py-12 gap-12 md:gap-16 lg:gap-24">
                         {questions.map(
                             (q) => (
-                                console.log(q),
                                 (
                                     <Question
                                         question={q}

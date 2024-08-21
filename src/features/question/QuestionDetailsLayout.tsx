@@ -44,7 +44,7 @@ export const QuestionDetailsLayout = ({
                 </div>
             </div>
             <div className="">
-                <PostForm />
+                <PostForm questionId={question.id} />
             </div>
             <div className="py-2">
                 {question.answers.length > 0 &&
