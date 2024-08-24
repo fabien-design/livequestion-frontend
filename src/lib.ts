@@ -30,3 +30,16 @@ export async function parseJwt(token: string) {
   }
 }
 
+export async function isTokenExpired(token: JwtPayload): Promise<boolean> {
+  try {
+    if (!token.exp) {
+      throw new Error("Token does not have an exp field");
+    }
+
+    const currentTime = Date.now() / 1000; // Temps actuel en secondes
+    return token.exp < currentTime;
+  } catch (err) {
+    console.error("Failed to decode token:", err);
+    return true; // Considérer comme expiré si erreur de décodage
+  }
+}

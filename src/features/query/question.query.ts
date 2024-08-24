@@ -2,10 +2,26 @@ import { getSession } from "@/lib";
 import { AnswerDetail } from "./answer.query";
 import { AuthorDetail, AuthorUndetailed } from "./author.query";
 
+export const getQuestions = async () => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?orderBy=desc&sortBy=date`,
+        );
+        const data = await response.json();
+        // Process the data or return it as needed
+        return data;
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error("Error fetching questions:", error);
+        throw error;
+    }
+}
+
+
 export const getLatestQuestions = async () => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?limit=3&orderBy=desc&sortBy=createdAt`,
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?limit=3&orderBy=desc&sortBy=date`,
         );
         const data = await response.json();
         // Process the data or return it as needed

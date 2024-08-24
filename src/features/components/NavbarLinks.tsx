@@ -7,8 +7,8 @@ import { usePathname } from "next/navigation";
 
 const LINKS = [
     { title: "Accueil", href: "/" },
-    { title: "Les questions", href: "/question" },
-    { title: "Nouvelle question", href: "/question/new" },
+    { title: "Les questions", href: "/questions" },
+    { title: "Nouvelle question", href: "/questions/new" },
 ]
 
 const NavBarLinks = () => {
