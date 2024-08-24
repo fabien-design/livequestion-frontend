@@ -31,7 +31,8 @@ export default function Home() {
             try {
                 const mostAnsweredQuestion = await getMostAnsweredQuestion();
                 setMostAnsweredQuestion(mostAnsweredQuestion);
-                const latestQuestions = await getLatestQuestions();
+                const latestQuestionsData = await getLatestQuestions();
+                const latestQuestions = latestQuestionsData.items;
                 setQuestions(latestQuestions);
                 setIsLoaded(false);
             } catch (error) {
@@ -73,7 +74,7 @@ export default function Home() {
                             Dernieres questions
                         </h2>
                         <Link
-                            href="/question"
+                            href="/questions"
                             className="text-primary font-semibold text-lg sm:text-xl md:text-2xl underline underline-offset-2 items-center"
                         >
                             Voir toutes les questions

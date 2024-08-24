@@ -2,10 +2,10 @@ import { getSession } from "@/lib";
 import { AnswerDetail } from "./answer.query";
 import { AuthorDetail, AuthorUndetailed } from "./author.query";
 
-export const getQuestions = async () => {
+export const getQuestions = async (page: number|null=1) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?orderBy=desc&sortBy=date`,
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?page=${page}&orderBy=desc&sortBy=date`,
         );
         const data = await response.json();
         // Process the data or return it as needed

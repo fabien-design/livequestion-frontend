@@ -1,7 +1,26 @@
+"use client"
+
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
+import { useEffect, useState } from "react";
+import { Category, getCategories } from "../query/category.query";
 
 const Footer = () => {
+
+    const [categories, setCategories] = useState<Category[]|null>(null);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const categories = await getCategories();
+                setCategories(categories);
+            } catch (error) {
+                console.error("Error fetching categories with API:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     return (
         <footer className="bg-white text-black grid">
@@ -12,13 +31,13 @@ const Footer = () => {
                 </div>
                 <div className="border-b-2 bg-zinc-500 w-full my-10"></div>
                 <div className="flex justify-between font-semibold text-sm sm:text-lg md:text-xl">
-                    <Link href="/question?categ=0">Sport</Link>
-                    <Link href="/question?categ=1">Santé</Link>
-                    <Link href="/question?categ=2">Business</Link>
-                    <Link href="/question?categ=3">Musique</Link>
-                    <Link href="/question?categ=4">Films</Link>
-                    <Link href="/question?categ=5">Jeux videos</Link>
-                    
+                    {categories && (
+                        categories.map((category) => (
+                            <Link href={`/question?categ=${category.id}`} key={`category_${category.id}`}>
+                                {category.name}
+                            </Link>
+                        ))
+                    )} 
                 </div>
                 <p className="pt-16 font-semibold text-sm sm:text-lg md:text-xl">@{new Date().getFullYear()}  - Projet étudiant BTS  / Licence - <Link href="mailto:contact@lyceestvincent.fr">Contactez-nous</Link></p>
             </MaxWidthWrapper>
