@@ -51,7 +51,7 @@ export default function Home() {
 
 
     return (
-        <div className="bg-gray-50">
+        <div className="bg-gray-50 pt-12">
             <section>
                 <MaxWidthWrapper className="h-full">
                     <div className="w-full h-full ">

@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 import { QuestionHome } from "../query/question.query";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type QuestionProps = {
     question: QuestionHome;
     isBig?: boolean;
-}
+};
 
-const HorizontalCard = ({
-    question,
-    isBig = false
-}: QuestionProps) => {
+const HorizontalCard = ({ question, isBig = false }: QuestionProps) => {
     const currentDate = new Date();
     const creationDate = new Date(question.createdAt);
+    const router = useRouter();
     const timeDiff = Math.abs(currentDate.getTime() - creationDate.getTime());
     const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     const hoursDiff = Math.ceil(timeDiff / (1000 * 60 * 60));
@@ -37,7 +37,11 @@ const HorizontalCard = ({
             })}
         >
             <img
-                src={question.images?.name != null ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}` : ""}
+                src={
+                    question.images?.name != null
+                        ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}`
+                        : ""
+                }
                 alt="image of the question"
                 className={cn(
                     "object-cover w-full rounded-[30px] aspect-[1.6/1]",
@@ -48,14 +52,20 @@ const HorizontalCard = ({
                     }
                 )}
             />
-            <div className="pl-12 py-4 flex-grow">
+            <div className="pl-12 py-4 flex-grow content-center">
                 <div
                     className={cn("flex items-center text-black mb-2", {
                         "text-xl": isBig,
                         "text-sm": !isBig,
                     })}
                 >
-                    <p className="font-bold">{question.category.name}</p>
+                    <Link
+                        className="font-bold hover:underline hover:underline-offset-2 cursor-pointer
+                        ease-in duration-200 z-10 pointer-events-auto"
+                        href={`/questions/?category=${question.category.name}`}
+                    >
+                        {question.category.name}
+                    </Link>
                     <span className="mx-4 font-bold">&#903;</span>
                     <p>{timeAgo}</p>
                 </div>
@@ -76,8 +86,14 @@ const HorizontalCard = ({
                             })}
                         >
                             {question.answersCount}
-                        </span>{" "} 
-                        réponses - Par {question.author.username}
+                        </span>{" "}
+                        réponses - Par{" "}
+                        <Link
+                            href={`/questions?author=${question.author.username}`}
+                            className="hover:underline hover:underline-offset-2"
+                        >
+                            {question.author.username}
+                        </Link>
                     </p>
                 </div>
             </div>

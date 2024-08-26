@@ -3,16 +3,14 @@ import { HTMLAttributes } from "react";
 import { QuestionHome } from "../query/question.query";
 import { isBigInt64Array } from "util/types";
 import Image from "next/image";
+import Link from "next/link";
 
 type QuestionProps = {
     question: QuestionHome;
     isBig?: boolean;
-}
+};
 
-const VerticalCard = ({
-    question,
-    isBig = false,
-}: QuestionProps) => {
+const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
     const currentDate = new Date();
     const creationDate = new Date(question.createdAt);
     const timeDiff = Math.abs(currentDate.getTime() - creationDate.getTime());
@@ -35,18 +33,30 @@ const VerticalCard = ({
     return (
         <div
             className={cn("flex flex-col mb-4", {
-                "max-w-[200px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]": !isBig, // 300px max width
+                "max-w-[200px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]":
+                    !isBig, // 300px max width
                 "max-w-[250px] sm:max-w-[350px] md:max-w-[500px] lg:max-w-[600px]":
                     isBig, // 600px max width
             })}
         >
-            <div className="relative"> 
-                <span className="py-2 px-4 md:px-6 text-white text-center text-sm bg-[#AD0569]/90 rounded-full absolute top-2 right-2">{question.category.name}</span>
+            <div className="relative">
+                <Link
+                    href={`/questions?category=${question.category.id.toString()}`}
+                    className="py-2 px-4 md:px-6 text-white text-center text-sm 
+                    bg-[#AD0569]/80 hover:bg-[#AD0569] ease-in duration-300 rounded-full absolute top-2 right-2"
+                >
+                    {question.category.name}
+                </Link>
                 <img
-                    src={question.images?.name != null ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}` : ""}
+                    src={
+                        question.images?.name != null
+                            ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}`
+                            : ""
+                    }
                     alt="image of the question"
                     className={cn(
-                        "object-cover w-full rounded-[30px] aspect-[1.6/1]",{}
+                        "object-cover w-full rounded-[30px] aspect-[1.6/1]",
+                        {}
                     )}
                 />
             </div>
@@ -60,17 +70,23 @@ const VerticalCard = ({
                     {question.title}
                 </h3>
                 <div className="flex items-center text-primary">
-                    <p className={cn("",  {
-                                "text-sm": isBig,
-                                "text-[12px]": !isBig,
-                            })}>
-                        <span
-                            className={cn("font-semibold",)}
-                        >
+                    <p
+                        className={cn("", {
+                            "text-sm": isBig,
+                            "text-[12px]": !isBig,
+                        })}
+                    >
+                        <span className={cn("font-semibold")}>
                             {question.answersCount}
                         </span>{" "}
-                        réponses - Par {question.author.username} -{" "}
-                        {timeAgo}
+                        réponses - Par{" "}
+                        <Link
+                            href={`/questions?author=${question.author.username}`}
+                            className="hover:underline hover:underline-offset-2"
+                        >
+                            {question.author.username}
+                        </Link>{" "}
+                        - {timeAgo}
                     </p>
                 </div>
             </div>
