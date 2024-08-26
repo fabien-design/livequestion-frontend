@@ -4,7 +4,7 @@ import { getAuthorDetail } from '@/features/query/author.query'
 import { getUserSession } from './app/(home)/action'
 
 // Liste des routes protégées et publiques
-const protectedRoutes = ['/question'];
+const protectedRoutes = ['/questions', '/question', '/profile'];
 const publicRoutes = ['/login', '/signup', '/'];
 
 export default async function middleware(req: NextRequest) {
@@ -18,7 +18,8 @@ export default async function middleware(req: NextRequest) {
   const user = await getUserSession();
 
   if (!user && isProtectedRoute) {
-    return NextResponse.redirect(new URL('/login', req.nextUrl));
+    const callbackUrl = req.nextUrl.href;
+    return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`, req.nextUrl));
   }
 
   if (user) {

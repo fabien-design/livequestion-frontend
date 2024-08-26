@@ -12,7 +12,7 @@ export async function getCategories(): Promise<Category[]> {
         return data;
     } catch (error) {
         // Handle any errors that occur during the request
-        console.error("Error fetching latest questions:", error);
+        console.error("Error fetching categories:", error);
         throw error;
     }
 }

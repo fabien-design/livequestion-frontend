@@ -10,7 +10,7 @@ import {
     Pagination,
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 type PaginationProps = {
@@ -31,8 +31,6 @@ export const PaginationComponent = ({
 
     const getPaginationItems = () => {
         const items = [];
-        
-        // Always show the first page
         items.push(1);
 
         // Show left ellipsis if needed
@@ -53,7 +51,6 @@ export const PaginationComponent = ({
             items.push("right-ellipsis");
         }
 
-        // Always show the last page
         if (pagesNumber > 1) {
             items.push(pagesNumber);
         }
@@ -63,28 +60,51 @@ export const PaginationComponent = ({
 
     const paginationItems = getPaginationItems();
 
+    const router = useRouter();
+    if(currentPageNumber > pagesNumber) {
+        router.push(`${currentPage}?page=${pagesNumber}`);
+        return null;
+    }else if(currentPageNumber < 1) {
+        router.push(`${currentPage}?page=1`);
+        return null;
+    }
+
     return (
         <Pagination className={cn(className)}>
             <PaginationContent>
                 {hasPreviousPage ? (
                     <PaginationItem>
-                        <PaginationPrevious href={`${currentPage}?page=${currentPageNumber - 1}`} />
+                        <PaginationPrevious
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.push(
+                                    `${currentPage}?page=${
+                                        currentPageNumber - 1
+                                    }`
+                                );
+                            }}
+                        />
                     </PaginationItem>
                 ) : (
                     <PaginationItem>
                         <PaginationPrevious
                             href="#"
-                            aria-disabled={true}
                             tabIndex={-1}
+                            aria-disabled={true}
                             className={"pointer-events-none opacity-50"}
-                        >Test</PaginationPrevious>
+                        >
+                            Test
+                        </PaginationPrevious>
                     </PaginationItem>
                 )}
 
                 {paginationItems.map((item, index) => {
                     if (item === "left-ellipsis" || item === "right-ellipsis") {
                         return (
-                            <PaginationItem key={`pagination_ellipsis_${index}`}>
+                            <PaginationItem
+                                key={`pagination_ellipsis_${index}`}
+                            >
                                 <PaginationEllipsis />
                             </PaginationItem>
                         );
@@ -93,7 +113,14 @@ export const PaginationComponent = ({
                         const href = `${currentPage}?page=${item}`;
                         return (
                             <PaginationItem key={`pagination_item_${item}`}>
-                                <PaginationLink href={href} isActive={isActive}>
+                                <PaginationLink
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        router.push(href);
+                                    }}
+                                    isActive={isActive}
+                                >
                                     {item}
                                 </PaginationLink>
                             </PaginationItem>
@@ -103,7 +130,17 @@ export const PaginationComponent = ({
 
                 {hasNextPage ? (
                     <PaginationItem>
-                        <PaginationNext href={`${currentPage}?page=${currentPageNumber + 1}`} />
+                        <PaginationNext
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.push(
+                                    `${currentPage}?page=${
+                                        currentPageNumber + 1
+                                    }`
+                                );
+                            }}
+                        />
                     </PaginationItem>
                 ) : (
                     <PaginationItem>
@@ -112,7 +149,9 @@ export const PaginationComponent = ({
                             aria-disabled={true}
                             tabIndex={-1}
                             className={"pointer-events-none opacity-50"}
-                        >Test</PaginationNext>
+                        >
+                            Test
+                        </PaginationNext>
                     </PaginationItem>
                 )}
             </PaginationContent>

@@ -1,13 +1,15 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { handleLogin } from "./action";
 import { useToast } from "@/components/ui/use-toast"
 
 
 export default function LoginPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl') || '/';
     const [error, setError] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -36,7 +38,7 @@ export default function LoginPage() {
                 let isCookieCreated =  await handleLogin(data.token);
                 if (isCookieCreated) {
                     router.refresh();
-                    router.push('/');
+                    router.push(callbackUrl);
 
                 }
 

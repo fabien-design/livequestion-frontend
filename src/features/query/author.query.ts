@@ -13,6 +13,31 @@ export type AuthorDetail = {
     avatar: string | null;
 }
 
+export async function getAuthors(): Promise<AuthorUndetailed[]> {
+    const token = await getSession(); 
+    // Verify if the user is authenticated before making the request
+    if (!token) {
+        throw new Error("User is not authenticated");
+    }
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/users`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error("Error fetching authors:", error);
+        throw error;
+    }
+}
+
 export const getAuthorDetail = async (username: string): Promise<AuthorDetail|undefined> => {
     const token = await getSession(); 
     try {
