@@ -10,6 +10,7 @@ import {
     FormItem,
     FormControl,
     FormMessage,
+    FormLabel,
 } from "@/components/ui/form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -38,6 +39,11 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import slugify from "slugify";
 import striptags from "striptags";
+import { customSlugify } from "@/lib";
+
+function unSlug(text: string): string {
+    return text.replace(/(?<!-)-(?!-)/g, " ");
+}
 
 const formSchema = (categories: Category[], authors: AuthorUndetailed[]) =>
     z.object({
@@ -85,11 +91,13 @@ export const QuestionFilter = ({
     const [error, setError] = useState<string | null>(null);
     const [openAuthorComboBox, setOpenAuthorComboBox] = useState(false);
     const [openCategoryComboBox, setOpenCategoryComboBox] = useState(false);
+    let defaultTitle =
+        searchParams.get("title") && unSlug(searchParams.get("title")!);
 
     const form = useForm<z.infer<ReturnType<typeof formSchema>>>({
         resolver: zodResolver(formSchema(categories, authors)),
         defaultValues: {
-            title: searchParams.get("title") || "",
+            title: defaultTitle || "",
             author: searchParams.get("author") || "",
             category: searchParams.get("category") || "",
         },
@@ -104,7 +112,10 @@ export const QuestionFilter = ({
 
             // add filters to the url
             if (values.title) {
-                searchParams.set("title", slugify(striptags(values.title)));
+                searchParams.set(
+                    "title",
+                    await customSlugify(striptags(values.title))
+                );
             }
             if (values.author) {
                 searchParams.set("author", values.author);
@@ -125,7 +136,7 @@ export const QuestionFilter = ({
 
     return (
         <>
-            <div className="p-8 border-2">
+            <div className="p-8 border-2 rounded-2xl bg-gray-100">
                 <FormProvider {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -136,9 +147,10 @@ export const QuestionFilter = ({
                             name="title"
                             render={({ field }) => (
                                 <FormItem className="w-full ">
+                                    <FormLabel htmlFor="title">Titre de la question</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className="basis-full bg-gray-200"
+                                            className="basis-full bg-white"
                                             type="text"
                                             placeholder=""
                                             {...field}
@@ -148,13 +160,14 @@ export const QuestionFilter = ({
                                 </FormItem>
                             )}
                         />
-                        <div className="flex gap-4">
+                        <div className="grid sm:flex gap-4 w-full ">
                             <FormField
                                 control={form.control}
                                 name="author"
                                 render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
+                                    <FormItem className="grid w-full">
+                                        <FormLabel htmlFor="author" className="pl-[0.25px]">Auteur</FormLabel>
+                                        <FormControl >
                                             <Popover
                                                 open={openAuthorComboBox}
                                                 onOpenChange={
@@ -168,7 +181,7 @@ export const QuestionFilter = ({
                                                         aria-expanded={
                                                             openAuthorComboBox
                                                         }
-                                                        className="w-[200px] justify-between"
+                                                        className="w-full justify-between"
                                                     >
                                                         {field.value
                                                             ? authors.find(
@@ -180,12 +193,12 @@ export const QuestionFilter = ({
                                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                     </Button>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-[200px] p-0">
+                                                <PopoverContent className="w-full p-0">
                                                     <Command>
                                                         <CommandInput placeholder="Chercher author..." />
                                                         <CommandList>
                                                             <CommandEmpty>
-                                                                Aucun autheur
+                                                                Aucun auteur
                                                                 trouvé
                                                             </CommandEmpty>
                                                             <CommandGroup>
@@ -267,7 +280,8 @@ export const QuestionFilter = ({
                                 control={form.control}
                                 name="category"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="grid w-full">
+                                        <FormLabel htmlFor="category" className="pl-[0.25px]">Catégorie</FormLabel>
                                         <FormControl>
                                             <Popover
                                                 open={openCategoryComboBox}
@@ -282,7 +296,7 @@ export const QuestionFilter = ({
                                                         aria-expanded={
                                                             openCategoryComboBox
                                                         }
-                                                        className="w-[200px] justify-between"
+                                                        className="w-full justify-between"
                                                     >
                                                         {field.value
                                                             ? categories.find(
@@ -294,7 +308,7 @@ export const QuestionFilter = ({
                                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                     </Button>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-[200px] p-0">
+                                                <PopoverContent className="w-full p-0">
                                                     <Command>
                                                         <CommandInput placeholder="Chercher une catégorie..." />
                                                         <CommandList>

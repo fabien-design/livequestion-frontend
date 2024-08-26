@@ -84,8 +84,8 @@ const PostForm = ({ categories }: { categories: Category[] }) => {
                 throw new Error("Network response was not ok.");
             }
 
-            // form.reset();
-            // router.refresh();
+            form.reset();
+            router.push(`/questions/`);
         } catch (error) {
             console.error("Error submitting post:", error);
             setError("Failed to submit the post. Please try again.");

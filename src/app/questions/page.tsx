@@ -18,21 +18,17 @@ type PaginationData = {
     totalPages: number;
 };
 
-const QuestionsPage = ({
-    searchParams,
-}: {
-    searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-
-    const page = searchParams["page"] ? parseInt(Array.isArray(searchParams["page"]) ? searchParams["page"][0] : searchParams["page"]) : 1;
+const QuestionsPage = () => {
+    const searchParams = useSearchParams();
+    const page = parseInt(searchParams.get("page") ?? "1");
+    const category = searchParams.get("category") ?? "";
+    const author = searchParams.get("author")?? "";
 
     const [questions, setQuestions] = useState<QuestionHome[]>([]);
     const [categories, setCategories] = useState<Category[] | null>(null);
     const [authors, setAuthors] = useState<AuthorUndetailed[] | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [paginationData, setPaginationData] = useState<PaginationData | null>(
-        null
-    );
+    const [paginationData, setPaginationData] = useState<PaginationData | null>(null);
 
     useEffect(() => {
         const fetchCategoriesAndAuthors = async () => {
@@ -49,9 +45,11 @@ const QuestionsPage = ({
         const fetchQuestions = async () => {
             setIsLoading(true);
             try {
-                const questionsDataFetched = await getQuestions(page);
-                setQuestions(questionsDataFetched.items);
-                setPaginationData(questionsDataFetched.pagination);
+                const questionsDataFetched = await getQuestions(page, category, author);
+                if(questionsDataFetched.pagination.totalItems > 0) {
+                    setQuestions(questionsDataFetched.items);
+                    setPaginationData(questionsDataFetched.pagination);
+                }
             } catch (error) {
                 console.error("Error fetching questions with API:", error);
             } finally {
@@ -60,7 +58,7 @@ const QuestionsPage = ({
         };
 
         fetchQuestions();
-    }, [page]);
+    }, [searchParams]);
 
     return (
         <>
@@ -68,7 +66,7 @@ const QuestionsPage = ({
                 <h2 className="text-3xl font-bold pb-12">Les questions</h2>
 
                 <h3 className="text-xl">Filtrer les résultats</h3>
-                <div>
+                <div className="py-10">
                     {categories && authors && (
                         <QuestionFilter
                             categories={categories}
@@ -77,20 +75,25 @@ const QuestionsPage = ({
                     )}
                 </div>
                 <div className="grid grid-cols-1 gap-4 pb-6">
-                    {isLoading ? (
-                        <p>Loading...</p>
-                    ) : (
-                        questions.map((question) => (
-                            <Link
-                                href={`/questions/${question.id}`}
-                                key={`question_${question.id}`}
-                            >
-                                <HorizontalCard
-                                    question={question}
-                                />
-                            </Link>
-                        ))
-                    )}
+                    {questions ? (
+                            isLoading ? (
+                                <p>Loading...</p>
+                            ) : (
+                                questions.map((question) => (
+                                    <Link
+                                        href={`/questions/${question.id}`}
+                                        key={`question_${question.id}`}
+                                    >
+                                        <HorizontalCard
+                                            question={question}
+                                        />
+                                    </Link>
+                                ))
+                            )
+                        ): (
+                            <p className="text-2xl text-red-500 font-bold text-center">Pas de questions trouvé</p>
+                        )
+                    }
                 </div>
 
                 {paginationData && (

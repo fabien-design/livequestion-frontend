@@ -2,10 +2,18 @@ import { getSession } from "@/lib";
 import { AnswerDetail } from "./answer.query";
 import { AuthorDetail, AuthorUndetailed } from "./author.query";
 
-export const getQuestions = async (page: number|null=1) => {
+export const getQuestions = async (page: number|null=1, category: string|null, author: string|null) => {
+    let url = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?page=${page}&orderBy=desc&sortBy=date`;
     try {
+        if (category){
+            url += `&category=${category}`;
+        }
+        if (author){
+            url += `&author=${author}`;
+        }
+
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?page=${page}&orderBy=desc&sortBy=date`,
+            url,
         );
         const data = await response.json();
         // Process the data or return it as needed
