@@ -10,6 +10,8 @@ import Link from "next/link";
 import { QuestionFilter } from "@/features/components/QuestionFilter";
 import { Category, getCategories } from "@/features/query/category.query";
 import { AuthorUndetailed, getAuthors } from "@/features/query/author.query";
+import { Author } from "@/features/author/Author";
+import Loading from "../(home)/loading";
 
 type PaginationData = {
     currentPage: number;
@@ -18,80 +20,58 @@ type PaginationData = {
     totalPages: number;
 };
 
-const QuestionsPage = () => {
+const Page = () => {
     const searchParams = useSearchParams();
     const page = parseInt(searchParams.get("page") ?? "1");
     const category = searchParams.get("category") ?? "";
     const author = searchParams.get("author")?? "";
+    const pagination = {page: page};
 
-    const [questions, setQuestions] = useState<QuestionHome[]>([]);
-    const [categories, setCategories] = useState<Category[] | null>(null);
     const [authors, setAuthors] = useState<AuthorUndetailed[] | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [paginationData, setPaginationData] = useState<PaginationData | null>(null);
 
     useEffect(() => {
-        const fetchCategoriesAndAuthors = async () => {
-            try {
-                const categories = await getCategories();
-                setCategories(categories);
-                const authors = await getAuthors(null);
-                setAuthors(authors);
-            } catch (error) {
-                console.error("Error fetching categories and authors with API:", error);
-            }
-        }
-        fetchCategoriesAndAuthors();
-        const fetchQuestions = async () => {
+        const fetchAuthors = async () => {
             setIsLoading(true);
             try {
-                const questionsDataFetched = await getQuestions(page, category, author);
-                if(questionsDataFetched.pagination.totalItems > 0) {
-                    setQuestions(questionsDataFetched.items);
-                    setPaginationData(questionsDataFetched.pagination);
+                const authors = await getAuthors(pagination);
+                if(authors.pagination.totalItems > 0) {
+                    setAuthors(authors.items);
+                    setPaginationData(authors.pagination);
                 }
             } catch (error) {
-                console.error("Error fetching questions with API:", error);
+                console.error("Error fetching authors with API:", error);
             } finally {
                 setIsLoading(false);
             }
-        };
-
-        fetchQuestions();
+        }
+        fetchAuthors();
     }, [searchParams]);
 
     return (
         <>
             <MaxWidthWrapper className="pt-20">
-                <h2 className="text-3xl font-bold pb-12">Les questions</h2>
+                <h2 className="text-3xl font-bold pb-12">Les auteurs</h2>
 
-                <h3 className="text-xl">Filtrer les résultats</h3>
-                <div className="py-10">
-                    {categories && authors && (
-                        <QuestionFilter
-                            categories={categories}
-                            authors={authors}
-                        />
-                    )}
-                </div>
                 <div className="grid grid-cols-1 gap-4 pb-6">
-                    {questions ? (
-                            isLoading ? (
-                                <p>Loading...</p>
-                            ) : (
-                                questions.map((question) => (
+                    {!isLoading ? (
+                            authors != null ? (
+                                authors.map((author) => (
                                     <Link
-                                        href={`/questions/${question.id}`}
-                                        key={`question_${question.id}`}
+                                        href={`/users/${author.id}`}
+                                        key={`user_${author.id}`}
                                     >
-                                        <HorizontalCard
-                                            question={question}
+                                        <Author
+                                            author={author}
                                         />
                                     </Link>
                                 ))
+                            ) : (
+                                <p className="text-2xl text-red-500 font-bold text-center">Pas d'auteurs trouvé</p>
                             )
                         ): (
-                            <p className="text-2xl text-red-500 font-bold text-center">Pas de questions trouvé</p>
+                            <Loading />
                         )
                     }
                 </div>
@@ -108,4 +88,4 @@ const QuestionsPage = () => {
     );
 };
 
-export default QuestionsPage;
+export default Page;

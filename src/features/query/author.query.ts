@@ -5,6 +5,7 @@ export type AuthorUndetailed = {
     username: string;
     avatar: string | null;
     questions_count: number;
+    created_at: string;
 }
 
 export type AuthorDetail = {
@@ -13,16 +14,23 @@ export type AuthorDetail = {
     email: string;  
     avatar: string | null;
 }
+type PaginationProps = {
+    page: number|null;
+}
 
-export async function getAuthors(): Promise<AuthorUndetailed[]> {
+export async function getAuthors(pagination: PaginationProps|null) {
     const token = await getSession(); 
     // Verify if the user is authenticated before making the request
     if (!token) {
         throw new Error("User is not authenticated");
     }
+    let url = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/users`;
+    if (pagination) {
+        if (pagination.page && pagination.page > 0)  url += `?pagination=true&page=${pagination.page}&limit=10`;
+    }
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/users`,
+            url,
             {
                 headers: {
                     "Content-Type": "application/json",
