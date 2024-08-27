@@ -4,6 +4,7 @@ import { QuestionHome } from "../query/question.query";
 import { isBigInt64Array } from "util/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type QuestionProps = {
     question: QuestionHome;
@@ -18,6 +19,7 @@ const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
     const hoursDiff = Math.ceil(timeDiff / (1000 * 60 * 60));
     const minutesDiff = Math.ceil(timeDiff / (1000 * 60));
     const secondsDiff = Math.ceil(timeDiff / 1000);
+    const router = useRouter();
 
     let timeAgo = "";
     if (secondsDiff < 60) {
@@ -40,13 +42,18 @@ const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
             })}
         >
             <div className="relative">
-                <Link
-                    href={`/questions?category=${question.category.id.toString()}`}
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        router.push(
+                            `/questions?category=${question.category.id.toString()}`
+                        );
+                    }}
                     className="py-2 px-4 md:px-6 text-white text-center text-sm 
                     bg-[#AD0569]/80 hover:bg-[#AD0569] ease-in duration-300 rounded-full absolute top-2 right-2"
                 >
                     {question.category.name}
-                </Link>
+                </button>
                 <img
                     src={
                         question.images?.name != null
@@ -80,12 +87,17 @@ const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
                             {question.answersCount}
                         </span>{" "}
                         réponses - Par{" "}
-                        <Link
-                            href={`/questions?author=${question.author.username}`}
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.push(
+                                    `/questions?author=${question.author.username}`
+                                );
+                            }}
                             className="hover:underline hover:underline-offset-2"
                         >
                             {question.author.username}
-                        </Link>{" "}
+                        </button>{" "}
                         - {timeAgo}
                     </p>
                 </div>

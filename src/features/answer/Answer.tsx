@@ -27,7 +27,9 @@ export const Answer = ({ answer }: AnswerProps) => {
                     />
                 ) : null}
                 <AvatarFallback>
-                    {user.username.slice(0, 2).toUpperCase()}
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-700 text-white">
+                        {user.username[0]}
+                    </div>  
                 </AvatarFallback>
             </Avatar>
             <div className="flex justify-between flex-row">
@@ -45,7 +47,11 @@ export const Answer = ({ answer }: AnswerProps) => {
 
     return (
         <div className="flex w-full flex-col gap-4 bg-gray-200 items-start p-4 border-gray-200 border-y-2">
-            <PostHeader propId={answer.id} user={user} createdAt={answer.createdAt} />
+            <PostHeader
+                propId={answer.id}
+                user={user}
+                createdAt={answer.createdAt}
+            />
             <div className="ml-4 sm:ml-10 flex w-full flex-col gap-2">
                 {answer.content}
             </div>

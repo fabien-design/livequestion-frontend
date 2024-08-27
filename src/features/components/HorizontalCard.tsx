@@ -59,13 +59,13 @@ const HorizontalCard = ({ question, isBig = false }: QuestionProps) => {
                         "text-sm": !isBig,
                     })}
                 >
-                    <Link
+                     <button
                         className="font-bold hover:underline hover:underline-offset-2 cursor-pointer
                         ease-in duration-200 z-10 pointer-events-auto"
-                        href={`/questions/?category=${question.category.name}`}
+                        onClick={(e) => {e.preventDefault(); router.push(`/questions/?category=${question.category.id.toString()}`)}}
                     >
                         {question.category.name}
-                    </Link>
+                    </button>
                     <span className="mx-4 font-bold">&#903;</span>
                     <p>{timeAgo}</p>
                 </div>
@@ -88,12 +88,12 @@ const HorizontalCard = ({ question, isBig = false }: QuestionProps) => {
                             {question.answersCount}
                         </span>{" "}
                         réponses - Par{" "}
-                        <Link
-                            href={`/questions?author=${question.author.username}`}
+                        <button
+                            onClick={(e) => {e.preventDefault(); router.push(`/questions?author=${question.author.username}`)}}
                             className="hover:underline hover:underline-offset-2"
                         >
                             {question.author.username}
-                        </Link>
+                        </button>
                     </p>
                 </div>
             </div>

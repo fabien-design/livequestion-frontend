@@ -15,11 +15,15 @@ import { Question } from "@/features/question/Question";
 import { Skeleton } from "@nextui-org/skeleton";
 import { getUserSession } from "./action";
 import { cookies } from "next/headers";
+import { useRouter } from "next/navigation";
+import { AuthorUndetailed, getBestAuthors } from "@/features/query/author.query";
+import { AuthorPosition } from "@/features/author/AuthorPosition";
 
 // bg-primary/80
 
 export default function Home() {
     const [questions, setQuestions] = useState<QuestionHome[]>([]);
+    const [authors, setAuthors] = useState<AuthorUndetailed[]>([]);
     const [mostAnsweredQuestion, setMostAnsweredQuestion] =
         useState<QuestionHome | null>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -33,6 +37,8 @@ export default function Home() {
                 setMostAnsweredQuestion(mostAnsweredQuestion);
                 const latestQuestionsData = await getLatestQuestions();
                 const latestQuestions = latestQuestionsData.items;
+                const authorsData = await getBestAuthors();
+                setAuthors(authorsData);
                 setQuestions(latestQuestions);
                 setIsLoaded(false);
             } catch (error) {
@@ -40,9 +46,6 @@ export default function Home() {
             }
 
             const user = await getUserSession();
-            if (user) {
-                console.log("User", user);
-            }
         };
         
         fetchQuestions();
@@ -56,7 +59,7 @@ export default function Home() {
                 <MaxWidthWrapper className="h-full">
                     <div className="w-full h-full ">
                         {mostAnsweredQuestion && (
-                            <Link href={`/question/${mostAnsweredQuestion.id}`}>
+                            <Link href={`/questions/${mostAnsweredQuestion.id}`}>
                                 <HorizontalCard
                                     question={mostAnsweredQuestion}
                                     isBig={true}
@@ -67,7 +70,7 @@ export default function Home() {
                 </MaxWidthWrapper>
             </section>
             {/* latest questions section */}
-            <section className="py-12">
+            <section className="pt-12">
                 <MaxWidthWrapper>
                     <div className="flex justify-between">
                         <h2 className="font-semibold text-xl sm:text-3xl md:text-4xl">
@@ -88,6 +91,35 @@ export default function Home() {
                                         question={q}
                                         key={`lts_question_${q.id}`}
                                     ></Question>
+                                )
+                            )
+                        )}
+                    </div>
+                </MaxWidthWrapper>
+            </section>
+
+            <section className="pt-12">
+                <MaxWidthWrapper>
+                    <div className="flex justify-between">
+                        <h2 className="font-semibold text-xl sm:text-3xl md:text-4xl">
+                            Meilleurs auteurs
+                        </h2>
+                        <Link
+                            href="/authors"
+                            className="text-primary font-semibold text-lg sm:text-xl md:text-2xl underline underline-offset-2 items-center"
+                        >
+                            Voir tous les auteurs
+                        </Link>
+                    </div>
+                    <div className="flex justify-between py-12 gap-12 md:gap-16 lg:gap-24">
+                        {authors && authors.map(
+                            (a, i) => (
+                                (
+                                    <AuthorPosition
+                                        author={a}
+                                        position={i+1}
+                                        key={`best_author_${a.id}`}
+                                    ></AuthorPosition>
                                 )
                             )
                         )}

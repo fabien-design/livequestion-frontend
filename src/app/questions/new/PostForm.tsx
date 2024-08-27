@@ -32,7 +32,7 @@ const formSchema = (categories: Category[]) =>
         content: z
             .string()
             .min(2, "Content must be at least 2 characters.")
-            .max(512, "Max content characters is 512"),
+            .max(255, "Max content characters is 255"),
         file: z.any().optional(), // Accepter tout type ici pour gérer le fichier correctement
     });
 
@@ -68,6 +68,7 @@ const PostForm = ({ categories }: { categories: Category[] }) => {
             if (values.file) {
                 formData.append("file", values.file); // Ajouter directement l'objet File au FormData
             }
+
 
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions/new`,

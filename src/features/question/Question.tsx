@@ -11,7 +11,7 @@ type QuestionProps = {
 export const Question = ({ question }: QuestionProps) => {
     return (
         <>
-            <Link href={`/questions/${question.id}`}>
+            <Link href={`/questions/${question.id}`} className="w-full">
                 <VerticalCard question={question}></VerticalCard>
             </Link>
         </>

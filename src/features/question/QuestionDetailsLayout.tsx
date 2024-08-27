@@ -46,7 +46,7 @@ export const QuestionDetailsLayout = ({
             <div className="">
                 <PostForm questionId={question.id} />
             </div>
-            <div className="py-2">
+            <div className="mt-4 rounded-xl border bg-gray-200">
                 {question.answers.length > 0 &&
                     question.answers.map((answer) => {
                         return (

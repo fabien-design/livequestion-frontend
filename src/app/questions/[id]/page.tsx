@@ -25,7 +25,7 @@ const Page = async ({ params }: {params: {id: string|number}}) => {
 
     return (
         <>
-            <MaxWidthWrapper>
+            <MaxWidthWrapper className='pb-8'>
                 <QuestionDetailsLayout question={question}/>
               
             </MaxWidthWrapper>

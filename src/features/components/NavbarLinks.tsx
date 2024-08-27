@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 const LINKS = [
     { title: "Accueil", href: "/" },
     { title: "Les questions", href: "/questions" },
+    { title: "Les auteurs", href: "/authors" },
     { title: "Nouvelle question", href: "/questions/new" },
 ]
 

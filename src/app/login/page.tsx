@@ -46,7 +46,6 @@ export default function LoginPage() {
                 // Gestion des erreurs
                 let data = await response.json();
                 setError(data.message);
-                console.log(data.message);
                 toast({
                     title: "Login failed",
                     description: data.message,
@@ -57,7 +56,6 @@ export default function LoginPage() {
                 setPassword("");
             }
         } catch (err) {
-            console.error("An error occurred:", err);
             setError("An error occurred while processing your request.");
             toast({
                 title: "An error occurred",

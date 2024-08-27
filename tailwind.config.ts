@@ -52,6 +52,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        number_questions_color: "hsl(var(--number-questions-color))",
       },
       borderRadius: {
         lg: "var(--radius)",

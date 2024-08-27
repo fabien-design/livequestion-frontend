@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Category } from "../query/category.query";
 import { AuthorUndetailed } from "../query/author.query";
@@ -51,7 +51,7 @@ const formSchema = (categories: Category[], authors: AuthorUndetailed[]) =>
             .string()
             .toLowerCase()
             .trim()
-            .max(512, { message: "Le nombre de caractère max est 512" })
+            .max(255, { message: "Le nombre de caractère max est 255" })
             .optional(),
         category: z
             .string()
@@ -102,6 +102,14 @@ export const QuestionFilter = ({
             category: searchParams.get("category") || "",
         },
     });
+
+    useEffect(() => {
+        form.reset({
+            title: searchParams.get("title") || "",
+            author: searchParams.get("author") || "",
+            category: searchParams.get("category") || "",
+        });
+    }, [searchParams, form]);
 
     async function onSubmit(values: z.infer<ReturnType<typeof formSchema>>) {
         setLoading(true);
