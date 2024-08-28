@@ -5,12 +5,13 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import NavBarLinks from "./NavbarLinks";
 import { useUser } from "@/context/UserContext";
 import { useEffect, useState } from "react";
-import { getAuthorDetail } from "../query/author.query";
+import { AuthorDetail, getAuthorDetail } from "../query/author.query";
 import Loading from "@/app/(home)/loading";
+import { NavbarUserDropdown } from "./NavbarUserDropdown";
 
 const NavBar = () => {
     const { user } = useUser();
-    const [userDetails, setUserDetails] = useState<any>(null);
+    const [userDetails, setUserDetails] = useState<AuthorDetail|null|undefined>(null);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -36,21 +37,22 @@ const NavBar = () => {
                     <NavBarLinks />
                 </div>
                 <div>
-                    {user ? (
-                        <Link className="flex gap-2 items-center" href="/profile">
-                            {userDetails?.avatar.name ? (
-                                <img
-                                    src={`${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${userDetails.avatar.name}`}
-                                    alt="Avatar"
-                                    className="w-10 h-10 rounded-full"
-                                />
-                            ) : (
-                                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-700 text-white">
-                                    {userDetails?.username[0]}
-                                </div>
-                            )}
-                            <span className="ml-2">{user.username}</span>
-                        </Link>
+                    {user && userDetails ? (
+                        // <Link className="flex gap-2 items-center" href="/profile">
+                        //     {userDetails?.avatar.name ? (
+                        //         <img
+                        //             src={`${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${userDetails.avatar.name}`}
+                        //             alt="Avatar"
+                        //             className="w-10 h-10 rounded-full"
+                        //         />
+                        //     ) : (
+                        //         <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-700 text-white">
+                        //             {userDetails?.username[0]}
+                        //         </div>
+                        //     )}
+                        //     <span className="ml-2">{user.username}</span>
+                        // </Link>
+                        <NavbarUserDropdown userDetails={userDetails!} />
                     ) : (
                         <Link
                             href="/login"
