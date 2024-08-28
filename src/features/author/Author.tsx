@@ -10,9 +10,9 @@ export const Author = ({author} :  AuthorProps) => {
   return (
     <div className='flex gap-4 items-center'>
         <Avatar>
-                {author.avatar ? (
+                {author.avatar.name ? (
                     <AvatarImage
-                        src={author.avatar}
+                        src={`${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${author.avatar.name}`}
                         alt="avatar"
                         className="h-12 w-12 rounded-full"
                     />

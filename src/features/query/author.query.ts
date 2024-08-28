@@ -3,7 +3,10 @@ import { getSession } from "@/lib";
 export type AuthorUndetailed = {
     id: number;
     username: string;
-    avatar: string | null;
+    avatar: {
+        id: number|null;
+        name: string|null;
+    };
     questions_count: number;
     created_at: string;
 }
@@ -12,7 +15,10 @@ export type AuthorDetail = {
     id: number;
     username: string;
     email: string;  
-    avatar: string | null;
+    avatar: {
+        id: number|null;
+        name: string|null;
+    };
 }
 type PaginationProps = {
     page: number|null;

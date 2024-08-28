@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/features/components/Navbar";
 import Footer from "@/features/components/Footer";
 import Head from "next/head";
+import { UserProvider } from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +21,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className="text-black">
-                <NavBar />
-                <main className="min-h-screen bg-gray-50">
-                    {children}
-                </main>
-                <Footer />
+                <UserProvider>
+                    <NavBar />
+                    <main className="min-h-screen bg-gray-50">{children}</main>
+                    <Footer />
+                </UserProvider>
             </body>
         </html>
     );

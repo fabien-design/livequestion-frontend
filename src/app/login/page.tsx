@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
 import { FormEvent, useState } from "react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { handleLogin } from "./action";
-import { useToast } from "@/components/ui/use-toast"
-
+import { useUser } from "@/context/UserContext"; // Import the context
+import MaxWidthWrapper from "@/features/components/MaxWidthWrapper";
 
 export default function LoginPage() {
     const router = useRouter();
+    const { setUser } = useUser(); // Get the setUser function from context
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get('callbackUrl') || '/';
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
     const [error, setError] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { toast } = useToast();
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -35,58 +35,106 @@ export default function LoginPage() {
 
             if (response.ok) {
                 let data = await response.json();
-                let isCookieCreated =  await handleLogin(data.token);
+                let isCookieCreated = await handleLogin(data.token);
                 if (isCookieCreated) {
-                    router.refresh();
+                    setUser(data.user); // Update the user context
                     router.push(callbackUrl);
-
                 }
-
             } else {
-                // Gestion des erreurs
                 let data = await response.json();
                 setError(data.message);
-                toast({
-                    title: "Login failed",
-                    description: data.message,
-                    duration: 5000,
-                    variant: "destructive",
-                });
-                setUsername("");
-                setPassword("");
             }
         } catch (err) {
             setError("An error occurred while processing your request.");
-            toast({
-                title: "An error occurred",
-                description: "Something went wrong during the login process.",
-                duration: 5000,
-                variant: "destructive",
-            });
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            {error && <div>{error}</div>}
-            <input
-                type="text"
-                name="email_or_username"
-                value={username}
-                placeholder="Email or Username"
-                required
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                name="password"
-                value={password}
-                placeholder="Password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Login</button>
-        </form>
-        
+        <MaxWidthWrapper className="flex justify-center items-center">
+            <div className="max-w-md w-full h-screen content-center -mt-[64px]">
+                <div
+                    style={{
+                        boxShadow:
+                            "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    }}
+                    className="bg-gray-800 rounded-lg shadow-xl overflow-hidden"
+                >
+                    <div className="p-8">
+                        <h2 className="text-center text-3xl font-extrabold text-white">
+                            Welcome Back
+                        </h2>
+                        <p className="mt-4 text-center text-gray-400">
+                            Sign in to continue
+                        </p>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="mt-8 space-y-6"
+                        >
+                            {error && <div>{error}</div>}
+                            <div className="rounded-md shadow-sm">
+                                <div>
+                                    <label className="sr-only" htmlFor="email">
+                                        Pseudo
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="email_or_username"
+                                        className="appearance-none relative block w-full px-3 py-3 border border-gray-700
+                                        bg-gray-700 text-white rounded-md focus:outline-none focus:ring-indigo-500
+                                        focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                        value={username}
+                                        placeholder="Username"
+                                        required
+                                        onChange={(e) =>
+                                            setUsername(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                <div className="mt-4">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        className="appearance-none relative block w-full px-3 py-3 border border-gray-700
+                                        bg-gray-700 text-white rounded-md focus:outline-none focus:ring-indigo-500
+                                        focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                        value={password}
+                                        placeholder="Password"
+                                        required
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    type="submit"
+                                    className="group relative w-full flex justify-center py-3 px-4 border border-transparent
+                            text-sm font-medium rounded-md text-gray-900 bg-indigo-500 hover:bg-indigo-600
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="px-8 py-4 bg-gray-700 text-center">
+                        <span className="text-gray-400 pr-2">
+                            Don't have an account?
+                        </span>
+                        <a
+                            className="font-medium text-indigo-500 hover:text-indigo-400"
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.push(`/register?callbackUrl=${callbackUrl}`);
+                            }}
+                        >
+                            Sign up
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </MaxWidthWrapper>
     );
 }

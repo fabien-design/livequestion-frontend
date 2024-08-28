@@ -41,6 +41,36 @@ export const getLatestQuestions = async () => {
     }
 };
 
+export const getLatestSportQuestions = async () => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?limit=3&orderBy=desc&sortBy=date&category=1`,
+        );
+        const data = await response.json();
+        // Process the data or return it as needed
+        return data;
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error("Error fetching latest questions:", error);
+        throw error;
+    }
+};
+
+export const getRandomQuestions = async () => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?limit=3&random=true`,
+        );
+        const data = await response.json();
+        // Process the data or return it as needed
+        return data;
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error("Error fetching latest questions:", error);
+        throw error;
+    }
+};
+
 export const getMostAnsweredQuestion = async () => {
     try {
         const response = await fetch(
