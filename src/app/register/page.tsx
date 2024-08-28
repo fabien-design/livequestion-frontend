@@ -159,15 +159,17 @@ export default function RegisterPage() {
                                     control={form.control}
                                     name="avatar"
                                     render={({ field }) => (
-                                        <FormItem className="w-full ">
+                                        <FormItem className="w-full flex justify-center pb-3">
                                             <FormControl>
                                                 <Avatar
                                                     src={imageSource}
                                                     alt="Avatar"
+                                                    variant="circle"
                                                     smartImgFit={"center"}
-                                                    onChange={
-                                                        handleChangeAvatarSrc
-                                                    }
+                                                    style={{ height: "8rem", width: "8rem" }}
+                                                    emptyLabel="you can add an avatar"
+                                                    changeLabel="Add an avatar (optional)"
+                                                    onChange={handleChangeAvatarSrc}
                                                 />
                                             </FormControl>
                                             <FormMessage />
