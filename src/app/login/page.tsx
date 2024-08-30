@@ -51,8 +51,8 @@ export default function LoginPage() {
     }
 
     return (
-        <MaxWidthWrapper className="flex justify-center items-center">
-            <div className="max-w-md w-full h-screen content-center -mt-[64px]">
+        <MaxWidthWrapper className="flex justify-center items-center pt-[88px] h-full ">
+            <div className="max-w-md w-full content-center">
                 <div
                     style={{
                         boxShadow:
@@ -71,7 +71,7 @@ export default function LoginPage() {
                             onSubmit={handleSubmit}
                             className="mt-8 space-y-6"
                         >
-                            {error && <div>{error}</div>}
+                            {error && <div className="text-red-500 font-semibold">{error}</div>}
                             <div className="rounded-md shadow-sm">
                                 <div>
                                     <label className="sr-only" htmlFor="email">

@@ -1,8 +1,8 @@
 import React from "react";
-import { AuthorUndetailed } from "../query/author.query";
+import { UserDetailed } from "../query/user.query";
 
 type AuthorPositionProps = {
-    author: AuthorUndetailed;
+    author: UserDetailed;
     position: number;
 };
 

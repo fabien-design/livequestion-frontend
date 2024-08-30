@@ -1,6 +1,6 @@
 import { getSession } from "@/lib";
 
-export type AuthorUndetailed = {
+export type UserDetailed = {
     id: number;
     username: string;
     avatar: {
@@ -11,7 +11,7 @@ export type AuthorUndetailed = {
     created_at: string;
 }
 
-export type AuthorDetail = {
+export type UserDetail = {
     id: number;
     username: string;
     email: string;  
@@ -55,7 +55,7 @@ export async function getAuthors(pagination: PaginationProps|null) {
     }
 }
 
-export const getAuthorDetail = async (username: string): Promise<AuthorDetail|undefined> => {
+export const getUserDetail = async (username: string): Promise<UserDetail|undefined> => {
     const token = await getSession(); 
     try {
         const response = await fetch(
@@ -77,7 +77,7 @@ export const getAuthorDetail = async (username: string): Promise<AuthorDetail|un
     }
 }
 
-export const getBestAuthors = async (): Promise<AuthorUndetailed[]> => {
+export const getBestAuthors = async (): Promise<UserDetailed[]> => {
     let url = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/users/bests`;
     try {
         const response = await fetch(

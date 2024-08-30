@@ -8,7 +8,7 @@ import { PaginationComponent } from "@/features/components/PaginationComponent";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Category, getCategories } from "@/features/query/category.query";
-import { AuthorUndetailed, getAuthors } from "@/features/query/author.query";
+import { UserDetailed, getAuthors } from "@/features/query/user.query";
 import { Author } from "@/features/author/Author";
 import Loading from "../(home)/loading";
 
@@ -24,7 +24,7 @@ const Page = () => {
     const page = parseInt(searchParams.get("page") ?? "1");
     const pagination = {page: page};
 
-    const [authors, setAuthors] = useState<AuthorUndetailed[] | null>(null);
+    const [authors, setAuthors] = useState<UserDetailed[] | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [paginationData, setPaginationData] = useState<PaginationData | null>(null);
 

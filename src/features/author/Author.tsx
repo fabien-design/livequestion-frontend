@@ -1,9 +1,9 @@
 import React from 'react'
-import { AuthorUndetailed } from '../query/author.query'
+import { UserDetailed } from '../query/user.query'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 type AuthorProps = {
-    author: AuthorUndetailed;
+    author: UserDetailed;
 }
 
 export const Author = ({author} :  AuthorProps) => {

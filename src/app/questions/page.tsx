@@ -2,7 +2,7 @@
 import MaxWidthWrapper from "@/features/components/MaxWidthWrapper";
 import { getQuestions } from "@/features/query/question.query";
 import { getCategories } from "@/features/query/category.query";
-import { getAuthors } from "@/features/query/author.query";
+import { getAuthors } from "@/features/query/user.query";
 import QuestionsList from "@/features/components/question/QuestionsList"; // Import the new client component
 import { PaginationComponent } from "@/features/components/PaginationComponent";
 import { QuestionFilter } from "@/features/components/question/QuestionFilter";
@@ -10,14 +10,15 @@ import { QuestionFilter } from "@/features/components/question/QuestionFilter";
 export default async function QuestionsPage({
   searchParams,
 }: {
-  searchParams: { page?: string; category?: string; author?: string };
+  searchParams: { page?: string; title?: string; category?: string; author?: string };
 }) {
   const page = parseInt(searchParams.page ?? "1");
+  const title = searchParams.title ?? "";
   const category = searchParams.category ?? "";
   const author = searchParams.author ?? "";
 
   const [categories, authors] = await Promise.all([getCategories(), getAuthors(null)]);
-  const questionsData = await getQuestions(page, category, author);
+  const questionsData = await getQuestions(page, title, category, author);
 
   const questions = questionsData.items;
   const paginationData = questionsData.pagination;
@@ -32,8 +33,9 @@ export default async function QuestionsPage({
           <QuestionFilter categories={categories} authors={authors} />
         )}
       </div>
-
-      <QuestionsList questions={questions} isLoading={questions.length === 0} />
+        {questions && (
+          <QuestionsList questions={questions} isLoading={questions.length === 0} />
+        )}
 
       {paginationData && (
         <PaginationComponent

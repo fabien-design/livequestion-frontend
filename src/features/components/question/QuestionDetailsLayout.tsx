@@ -47,11 +47,18 @@ export const QuestionDetailsLayout = ({
                 <PostForm questionId={question.id} />
             </div>
             <div className="mt-4 rounded-xl border bg-gray-200">
-            {question.answers
-                .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
-                .map((answer) => (
-                    <Answer key={`answers_${answer.id}`} answer={answer} />
-                ))}
+                {question.answers
+                    .sort((a, b) =>
+                        String(b.createdAt).localeCompare(String(a.createdAt))
+                    )
+                    .map((answer, index) => (
+                        <div key={`answers_${answer.id}`}>
+                            <Answer answer={answer} />
+                            {index < question.answers.length - 1 && (
+                                <hr className="my-4 border-t border-gray-400" />
+                            )}
+                        </div>
+                    ))}
             </div>
         </>
     );

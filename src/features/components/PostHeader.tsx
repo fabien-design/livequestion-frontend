@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthorDetail, AuthorUndetailed } from "../query/author.query";
+import { UserDetail, UserDetailed } from "../query/user.query";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
@@ -7,7 +7,7 @@ import { formatDate } from "@/lib/date";
 
 type PostHeaderProps = {
     propId?: string|number;
-    user: AuthorDetail | AuthorUndetailed;
+    user: UserDetail | UserDetailed;
     createdAt: Date;
 };
 

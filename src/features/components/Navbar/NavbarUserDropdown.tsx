@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AuthorDetail } from "../../query/author.query";
+import { UserDetail } from "../../query/user.query";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -27,7 +27,7 @@ import { logoutUser } from "@/app/(home)/action";
 import { useUser } from "@/context/UserContext";
 
 type NavbarUserDropdownProps = {
-    userDetails: AuthorDetail;
+    userDetails: UserDetail;
     loading: boolean;
 };
 

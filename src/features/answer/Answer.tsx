@@ -14,7 +14,7 @@ export const Answer = ({ answer }: AnswerProps) => {
     const user = answer.author;
 
     return (
-        <div className="flex w-full flex-col gap-4 bg-gray-200 items-start p-4 border-gray-200 border-y-2">
+        <div className="flex w-full flex-col gap-4 bg-gray-200 items-start p-4 border-gray-200 border-b-2">
             <PostHeader
                 propId={answer.id}
                 user={user}

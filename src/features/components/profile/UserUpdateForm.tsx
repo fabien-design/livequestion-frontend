@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/context/UserContext";
-import { AuthorDetail, getAuthorDetail } from "@/features/query/author.query";
+import { UserDetail, getUserDetail } from "@/features/query/user.query";
 import { getSession } from "@/lib";
 import { Avatar, AvatarProps } from "@files-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,7 +85,7 @@ export default function UserUpdateForm() {
     const { user, setUser } = useUser();
     const [token, setToken] = useState<string | undefined>(undefined);
     const router = useRouter();
-    const [userDetails, setUserDetails] = useState<AuthorDetail | undefined>();
+    const [userDetails, setUserDetails] = useState<UserDetail | undefined>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [imageSource, setImageSource] = useState<
@@ -97,7 +97,7 @@ export default function UserUpdateForm() {
         const fetchData = async () => {
             try {
                 if (user) {
-                    setUserDetails(await getAuthorDetail(user!.username));
+                    setUserDetails(await getUserDetail(user!.username));
                     setToken(await getSession());
                 }
             } catch (error) {

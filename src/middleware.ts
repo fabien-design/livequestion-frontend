@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib'
-import { getAuthorDetail } from '@/features/query/author.query'
+import { getUserDetail } from '@/features/query/user.query'
 import { getUserSession } from './app/(home)/action'
 
 // Liste des routes protégées et publiques
-const protectedRoutes = ['/questions', '/question', '/profile'];
+const protectedRoutes = ['/questions', '/question', '/profile', '/users'];
 const publicRoutes = ['/login', '/signup', '/'];
 
 export default async function middleware(req: NextRequest) {
@@ -23,7 +23,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (user) {
-    const userDetails = await getAuthorDetail(user.username);
+    const userDetails = await getUserDetail(user.username);
 
     // Si l'utilisateur est connecté mais n'a pas les détails, rediriger vers la page de login
     if (isProtectedRoute && !userDetails?.id) {

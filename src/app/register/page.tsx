@@ -134,8 +134,8 @@ export default function RegisterPage() {
     }
 
     return (
-        <MaxWidthWrapper className="flex justify-center items-center">
-            <div className="max-w-md w-full h-screen content-center -mt-[64px]">
+        <MaxWidthWrapper className="flex justify-center items-center pt-[88px] h-full ">
+            <div className="max-w-md w-full content-center ">
                 <div
                     style={{
                         boxShadow:

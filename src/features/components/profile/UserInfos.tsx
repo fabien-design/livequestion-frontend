@@ -2,7 +2,7 @@
 
 import { useUser } from "@/context/UserContext";
 import { useEffect, useState } from "react";
-import { AuthorDetail, getAuthorDetail } from "../../query/author.query";
+import { UserDetail, getUserDetail } from "../../query/user.query";
 import { Avatar } from "@files-ui/react";
 import { getSession } from "@/lib";
 import UserInfosSkeleton from "./UserInfosSkeleton";
@@ -10,7 +10,7 @@ import UserInfosSkeleton from "./UserInfosSkeleton";
 export default function UserInfos() {
     const { user } = useUser();
     const [token, setToken] = useState<string | undefined>(undefined);
-    const [userDetails, setUserDetails] = useState<AuthorDetail | undefined>();
+    const [userDetails, setUserDetails] = useState<UserDetail | undefined>();
     const [loading, setLoading] = useState<boolean>();
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function UserInfos() {
             try {
                 if (user !== null) {
                     console.log(user);
-                    setUserDetails(await getAuthorDetail(user.username));
+                    setUserDetails(await getUserDetail(user.username));
                     setToken(await getSession());
                 }
             } catch (error) {

@@ -18,16 +18,16 @@ import { getUserSession } from "./action";
 import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import {
-    AuthorUndetailed,
+    UserDetailed,
     getBestAuthors,
-} from "@/features/query/author.query";
+} from "@/features/query/user.query";
 import { AuthorPosition } from "@/features/author/AuthorPosition";
 
 // bg-primary/80
 
 export default function Home() {
     const [questions, setQuestions] = useState<QuestionHome[]>([]);
-    const [authors, setAuthors] = useState<AuthorUndetailed[]>([]);
+    const [authors, setAuthors] = useState<UserDetailed[]>([]);
     const [latestSportsQuestions, setLatestSportsQuestions] = useState<
         QuestionHome[]
     >([]);

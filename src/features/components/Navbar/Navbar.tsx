@@ -5,7 +5,7 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import NavBarLinks from "./NavbarLinks";
 import { useUser } from "@/context/UserContext";
 import { Suspense, useEffect, useState } from "react";
-import { AuthorDetail, getAuthorDetail } from "../../query/author.query";
+import { UserDetail, getUserDetail } from "../../query/user.query";
 import { NavbarUserDropdown } from "./NavbarUserDropdown";
 import { Skeleton } from "@/components/ui/skeleton";
 import UserSkeleton from "./UserSkeleton";
@@ -13,7 +13,7 @@ import UserSkeleton from "./UserSkeleton";
 const NavBar = () => {
     const { user } = useUser();
     const [userDetails, setUserDetails] = useState<
-        AuthorDetail | null | undefined
+        UserDetail | null | undefined
     >(null);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -22,7 +22,7 @@ const NavBar = () => {
         const fetchUserDetails = async () => {
             if (user && user.username) {
                 try {
-                    const details = await getAuthorDetail(user.username);
+                    const details = await getUserDetail(user.username);
                     setUserDetails(details);
                 } catch (error) {
                     console.error("Error fetching user details:", error);
@@ -35,7 +35,7 @@ const NavBar = () => {
     }, [user]);
 
     return (
-        <nav className="bg-primary text-white h-[88px]">
+        <nav className="bg-primary text-white h-[88px] z-40">
             <MaxWidthWrapper className="flex items-center justify-between py-4">
                 <div className="flex items-center space-x-4">
                     <h1 className="font-bold text-2xl font-Playfair_Display">

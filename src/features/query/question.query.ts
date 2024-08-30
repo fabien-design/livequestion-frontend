@@ -1,6 +1,6 @@
 import { getSession } from "@/lib";
 import { AnswerDetail } from "./answer.query";
-import { AuthorDetail, AuthorUndetailed } from "./author.query";
+import { UserDetail, UserDetailed } from "./user.query";
 
 export type QuestionHome = {
     id: number;
@@ -9,7 +9,7 @@ export type QuestionHome = {
         name: string|null;
     };
     title: string;
-    author: AuthorUndetailed;
+    author: UserDetailed;
     category: {
         id: number;
         name: string;
@@ -29,7 +29,7 @@ export type QuestionDetails = {
         updated_at: Date|null;
     };
     title: string;
-    author: AuthorDetail;
+    author: UserDetail;
     category: {
         id: number;
         name: string;
@@ -42,8 +42,9 @@ export type QuestionDetails = {
 
 };
 
-export const getQuestions = async (page: number|null=1, category: string|null, author: string|null) => {
+export const getQuestions = async (page: number|null=1, title: string|null, category: string|null, author: string|null) => {
     let url = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?page=${page}&orderBy=desc&sortBy=date`;
+    
     try {
         if (category){
             url += `&category=${category}`;
@@ -51,7 +52,10 @@ export const getQuestions = async (page: number|null=1, category: string|null, a
         if (author){
             url += `&author=${author}`;
         }
-
+        if (title){
+            url += `&title=${title}`;
+        }
+        console.log(url);
         const response = await fetch(
             url,
         );

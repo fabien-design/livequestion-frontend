@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Category } from "@/features/query/category.query";
-import { AuthorUndetailed } from "@/features/query/author.query";
+import { UserDetailed } from "@/features/query/user.query";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ function unSlug(text: string): string {
     return text.replace(/(?<!-)-(?!-)/g, " ");
 }
 
-const formSchema = (categories: Category[], authors: AuthorUndetailed[]) =>
+const formSchema = (categories: Category[], authors: UserDetailed[]) =>
     z.object({
         title: z
             .string()
@@ -79,7 +79,7 @@ const formSchema = (categories: Category[], authors: AuthorUndetailed[]) =>
 
 type QuestionFilterProps = {
     categories: Category[];
-    authors: AuthorUndetailed[];
+    authors: UserDetailed[];
 };
 
 export const QuestionFilter = ({
@@ -93,8 +93,7 @@ export const QuestionFilter = ({
     const [error, setError] = useState<string | null>(null);
     const [openAuthorComboBox, setOpenAuthorComboBox] = useState(false);
     const [openCategoryComboBox, setOpenCategoryComboBox] = useState(false);
-    let defaultTitle =
-        searchParams.get("title") && unSlug(searchParams.get("title")!);
+    let defaultTitle = searchParams.get("title") && unSlug(searchParams.get("title")!);
 
     const form = useForm<z.infer<ReturnType<typeof formSchema>>>({
         resolver: zodResolver(formSchema(categories, authors)),
@@ -107,7 +106,7 @@ export const QuestionFilter = ({
 
     useEffect(() => {
         form.reset({
-            title: searchParams.get("title") || "",
+            title: defaultTitle || "",
             author: searchParams.get("author") || "",
             category: searchParams.get("category") || "",
         });

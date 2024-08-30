@@ -31,7 +31,7 @@ const formSchema = (categories: Category[]) =>
             }),
         content: z
             .string()
-            .min(2, "Content must be at least 2 characters.")
+            .min(20, "Content must be at least 20 characters.")
             .max(255, "Max content characters is 255"),
         file: z.any().optional(), // Accepter tout type ici pour gérer le fichier correctement
     });
