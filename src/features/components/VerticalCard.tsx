@@ -58,7 +58,7 @@ const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
                     src={
                         question.images?.name != null
                             ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}`
-                            : ""
+                            : "/images/question-placeholder.jpg"
                     }
                     alt="image of the question"
                     className={cn(

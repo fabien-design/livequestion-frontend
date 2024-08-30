@@ -19,7 +19,9 @@ export type AuthorDetail = {
         id: number|null;
         name: string|null;
     };
+    createdAt: string;
 }
+
 type PaginationProps = {
     page: number|null;
 }

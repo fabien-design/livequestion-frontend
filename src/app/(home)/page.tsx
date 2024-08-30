@@ -12,8 +12,7 @@ import {
 } from "@/features/query/question.query";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
-import { QuestionLayout } from "@/features/question/QuestionLayout";
-import { Question } from "@/features/question/Question";
+import { Question } from "@/features/components/question/Question";
 import { Skeleton } from "@nextui-org/skeleton";
 import { getUserSession } from "./action";
 import { cookies } from "next/headers";

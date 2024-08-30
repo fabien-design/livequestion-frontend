@@ -1,8 +1,7 @@
 import React from "react";
-import { QuestionHome } from "../query/question.query";
-import { QuestionLayout } from "./QuestionLayout";
+import { QuestionHome } from "../../query/question.query";
 import Link from "next/link";
-import VerticalCard from "../components/VerticalCard";
+import VerticalCard from "../VerticalCard";
 import { cn } from "@/lib/utils";
 
 type QuestionProps = {

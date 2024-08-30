@@ -2,6 +2,46 @@ import { getSession } from "@/lib";
 import { AnswerDetail } from "./answer.query";
 import { AuthorDetail, AuthorUndetailed } from "./author.query";
 
+export type QuestionHome = {
+    id: number;
+    images: {
+        id: number|null;
+        name: string|null;
+    };
+    title: string;
+    author: AuthorUndetailed;
+    category: {
+        id: number;
+        name: string;
+    };
+    answersCount: number;
+    createdAt: Date;
+};
+
+export type QuestionDetails = {
+    id: number;
+    images: {
+        id: number|null;
+        name: string|null;
+        original_name: string|null;
+        extension: string|null;
+        size: number|null;
+        updated_at: Date|null;
+    };
+    title: string;
+    author: AuthorDetail;
+    category: {
+        id: number;
+        name: string;
+    };
+    answers: [
+        AnswerDetail
+    ];
+    createdAt: Date;
+    updatedAt: Date;
+
+};
+
 export const getQuestions = async (page: number|null=1, category: string|null, author: string|null) => {
     let url = `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?page=${page}&orderBy=desc&sortBy=date`;
     try {
@@ -44,7 +84,7 @@ export const getLatestQuestions = async () => {
 export const getLatestSportQuestions = async () => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?limit=3&orderBy=desc&sortBy=date&category=1`,
+            `${process.env.NEXT_PUBLIC_BACKEND_HOST}/api/questions?limit=3&orderBy=desc&sortBy=date&category=Sport`,
         );
         const data = await response.json();
         // Process the data or return it as needed
@@ -116,45 +156,4 @@ export const findQuestionById = async (id: string | number) => {
         console.error("Error fetching question by ID:", error);
         throw error;
     }
-};
-
-
-export type QuestionHome = {
-    id: number;
-    images: {
-        id: number|null;
-        name: string|null;
-    };
-    title: string;
-    author: AuthorUndetailed;
-    category: {
-        id: number;
-        name: string;
-    };
-    answersCount: number;
-    createdAt: Date;
-};
-
-export type QuestionDetails = {
-    id: number;
-    images: {
-        id: number|null;
-        name: string|null;
-        original_name: string|null;
-        extension: string|null;
-        size: number|null;
-        updated_at: Date|null;
-    };
-    title: string;
-    author: AuthorDetail;
-    category: {
-        id: number;
-        name: string;
-    };
-    answers: [
-        AnswerDetail
-    ];
-    createdAt: Date;
-    updatedAt: Date;
-
 };

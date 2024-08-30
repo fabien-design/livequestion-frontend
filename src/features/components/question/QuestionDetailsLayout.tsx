@@ -1,13 +1,13 @@
 import React, { PropsWithChildren } from "react";
-import { QuestionDetails } from "../query/question.query";
+import { QuestionDetails } from "../../query/question.query";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import clsx from "clsx";
-import VerticalCard from "../components/VerticalCard";
+import VerticalCard from "../VerticalCard";
 import Link from "next/link";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
-import { PostHeader } from "../components/PostHeader";
-import { Answer } from "../answer/Answer";
+import { PostHeader } from "../PostHeader";
+import { Answer } from "../../answer/Answer";
 import { Textarea } from "@/components/ui/textarea";
 import PostForm from "@/app/questions/[id]/PostForm";
 
@@ -36,7 +36,7 @@ export const QuestionDetailsLayout = ({
                     </h2>
                     {question.images?.name != null && (
                         <img
-                            className="mt-2 rounded-2xl border-2 border-gray-200"
+                            className="mt-2 rounded-2xl border-2 border-gray-200 max-h-[404px]"
                             alt="img of the question"
                             src={`${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}`}
                         />
@@ -47,16 +47,11 @@ export const QuestionDetailsLayout = ({
                 <PostForm questionId={question.id} />
             </div>
             <div className="mt-4 rounded-xl border bg-gray-200">
-                {question.answers.length > 0 &&
-                    question.answers.map((answer) => {
-                        return (
-                            // Your code for rendering each answer goes here
-                            <Answer
-                                key={`answers_${answer.id}`}
-                                answer={answer}
-                            />
-                        );
-                    })}
+            {question.answers
+                .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
+                .map((answer) => (
+                    <Answer key={`answers_${answer.id}`} answer={answer} />
+                ))}
             </div>
         </>
     );

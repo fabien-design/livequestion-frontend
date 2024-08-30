@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import { PaginationComponent } from "@/features/components/PaginationComponent";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { QuestionFilter } from "@/features/components/QuestionFilter";
 import { Category, getCategories } from "@/features/query/category.query";
 import { AuthorUndetailed, getAuthors } from "@/features/query/author.query";
 import { Author } from "@/features/author/Author";
@@ -23,8 +22,6 @@ type PaginationData = {
 const Page = () => {
     const searchParams = useSearchParams();
     const page = parseInt(searchParams.get("page") ?? "1");
-    const category = searchParams.get("category") ?? "";
-    const author = searchParams.get("author")?? "";
     const pagination = {page: page};
 
     const [authors, setAuthors] = useState<AuthorUndetailed[] | null>(null);

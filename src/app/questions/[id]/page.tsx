@@ -1,7 +1,7 @@
 import { Answer } from '@/features/answer/Answer';
 import MaxWidthWrapper from '@/features/components/MaxWidthWrapper';
 import { findQuestionById, QuestionDetails } from '@/features/query/question.query';
-import { QuestionDetailsLayout } from '@/features/question/QuestionDetailsLayout';
+import { QuestionDetailsLayout } from '@/features/components/question/QuestionDetailsLayout';
 import { notFound } from 'next/navigation';
 
 import React from 'react'

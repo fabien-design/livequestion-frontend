@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from "react";
-import { QuestionHome } from "../query/question.query";
+import { QuestionHome } from "../../query/question.query";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import clsx from "clsx";
-import VerticalCard from "../components/VerticalCard";
+import VerticalCard from "../VerticalCard";
 import Link from "next/link";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 

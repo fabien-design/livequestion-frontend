@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
-import { Category } from "../query/category.query";
-import { AuthorUndetailed } from "../query/author.query";
+import { Category } from "@/features/query/category.query";
+import { AuthorUndetailed } from "@/features/query/author.query";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { handleLogin } from "./action";
 import { useUser } from "@/context/UserContext"; // Import the context
 import MaxWidthWrapper from "@/features/components/MaxWidthWrapper";
+import { getUserSession } from "../(home)/action";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -37,7 +38,7 @@ export default function LoginPage() {
                 let data = await response.json();
                 let isCookieCreated = await handleLogin(data.token);
                 if (isCookieCreated) {
-                    setUser(data.user); // Update the user context
+                    setUser(await getUserSession()); // Update the user context
                     router.push(callbackUrl);
                 }
             } else {
