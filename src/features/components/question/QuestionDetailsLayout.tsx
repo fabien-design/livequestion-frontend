@@ -46,6 +46,7 @@ export const QuestionDetailsLayout = ({
             <div className="">
                 <PostForm questionId={question.id} />
             </div>
+            {question.answers && <p className="mt-8"><span className="font-semibold">{question.answers.length}</span> réponses obtenue</p>}
             <div className="mt-4 rounded-xl border bg-gray-200 max-h-[600px] pr-4 overflow-y-scroll">
                 {question.answers
                     .sort((a, b) =>
