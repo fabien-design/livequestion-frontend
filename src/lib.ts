@@ -17,10 +17,6 @@ export async function parseJwt(token: string) {
         throw new Error("Token is required");
     }
 
-    // Remplacez 'your-256-bit-secret' par votre clé secrète ou public key pour vérifier le token
-    const secretOrPublicKey =
-        process.env.JWT_SECRET_KEY || "your-256-bit-secret";
-
     try {
         // Décoder le token (ne vérifie pas la signature)
         const decoded: JwtPayload = jwtDecode(token);

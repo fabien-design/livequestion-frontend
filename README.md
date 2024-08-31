@@ -8,7 +8,15 @@ git clone https://github.com/fabien-design/livequestion-frontend.git
 
 ## 🚀 Installation
 
-Initialisez le projet en exécutant une des commandes suivantes
+1. Installation des packages
+```bash
+npm install
+```
+
+2. ### Modifier le .env.example en .env
+si vous avez changer le port du backend vous devez mettre à jours les variables d'environnement
+
+3. Initialisez le projet en exécutant une des commandes suivantes
 ```bash
 npm run dev
 # or
