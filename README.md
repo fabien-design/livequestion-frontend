@@ -29,7 +29,7 @@ bun dev
 
 ## 🌐 Accès au projet
 
-[Accès au front (en nextjs)](http://127.0.0.1:3000/admin)&nbsp;:
+[Accès au front (en nextjs)](http://127.0.0.1:3000)&nbsp;:
 ```bash
 127.0.0.1:3000
 ```
