@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Category } from "@/features/query/category.query";
 import { UserDetailed } from "@/features/query/user.query";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,13 +17,6 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import {
     Command,
     CommandEmpty,
@@ -93,7 +86,8 @@ export const QuestionFilter = ({
     const [error, setError] = useState<string | null>(null);
     const [openAuthorComboBox, setOpenAuthorComboBox] = useState(false);
     const [openCategoryComboBox, setOpenCategoryComboBox] = useState(false);
-    let defaultTitle = searchParams.get("title") && unSlug(searchParams.get("title")!);
+    let defaultTitle =
+        searchParams.get("title") && unSlug(searchParams.get("title")!);
 
     const form = useForm<z.infer<ReturnType<typeof formSchema>>>({
         resolver: zodResolver(formSchema(categories, authors)),
@@ -104,59 +98,60 @@ export const QuestionFilter = ({
         },
     });
 
+    // Watch for changes in form values
+    const formValues = useWatch({
+        control: form.control,
+    });
+
     useEffect(() => {
-        form.reset({
-            title: defaultTitle || "",
-            author: searchParams.get("author") || "",
-            category: searchParams.get("category") || "",
-        });
-    }, [searchParams, form]);
+        const updateQueryParams = async () => {
+            setLoading(true);
+            setError(null);
 
-    async function onSubmit(values: z.infer<ReturnType<typeof formSchema>>) {
-        setLoading(true);
-        setError(null);
+            try {
+                const searchParams = new URLSearchParams();
 
-        try {
-            const searchParams = new URLSearchParams();
+                // add filters to the url
+                if (formValues.title) {
+                    searchParams.set(
+                        "title",
+                        await customSlugify(striptags(formValues.title))
+                    );
+                }
+                if (formValues.author) {
+                    searchParams.set("author", formValues.author);
+                }
+                if (formValues.category) {
+                    searchParams.set("category", formValues.category);
+                }
 
-            // add filters to the url
-            if (values.title) {
-                searchParams.set(
-                    "title",
-                    await customSlugify(striptags(values.title))
-                );
+                // create url with these query parameters
+                const newUrl = `${currentPage}?${searchParams.toString()}`;
+                router.push(newUrl);
+            } catch (error) {
+                setError("Error updating the filters");
+            } finally {
+                setLoading(false);
             }
-            if (values.author) {
-                searchParams.set("author", values.author);
-            }
-            if (values.category) {
-                searchParams.set("category", values.category);
-            }
+        };
 
-            // create url with these query parameters
-            const newUrl = `${currentPage}?${searchParams.toString()}`;
-            router.push(newUrl);
-        } catch (error) {
-            setError("Error submitting the form");
-        } finally {
-            setLoading(false);
-        }
-    }
+        // Call updateQueryParams whenever formValues change
+        updateQueryParams();
+    }, [formValues, currentPage, router]);
 
     return (
         <>
             <div className="p-8 border-2 rounded-2xl bg-gray-100">
                 <FormProvider {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-3"
-                    >
+                    <form className="space-y-3">
                         <FormField
                             control={form.control}
                             name="title"
                             render={({ field }) => (
                                 <FormItem className="w-full ">
-                                    <FormLabel htmlFor="title">Titre de la question</FormLabel>
+                                    <FormLabel htmlFor="title">
+                                        Titre de la question
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             className="basis-full bg-white"
@@ -175,8 +170,13 @@ export const QuestionFilter = ({
                                 name="author"
                                 render={({ field }) => (
                                     <FormItem className="grid w-full">
-                                        <FormLabel htmlFor="author" className="pl-[0.25px]">Auteur</FormLabel>
-                                        <FormControl >
+                                        <FormLabel
+                                            htmlFor="author"
+                                            className="pl-[0.25px]"
+                                        >
+                                            Auteur
+                                        </FormLabel>
+                                        <FormControl>
                                             <Popover
                                                 open={openAuthorComboBox}
                                                 onOpenChange={
@@ -290,7 +290,12 @@ export const QuestionFilter = ({
                                 name="category"
                                 render={({ field }) => (
                                     <FormItem className="grid w-full">
-                                        <FormLabel htmlFor="category" className="pl-[0.25px]">Catégorie</FormLabel>
+                                        <FormLabel
+                                            htmlFor="category"
+                                            className="pl-[0.25px]"
+                                        >
+                                            Catégorie
+                                        </FormLabel>
                                         <FormControl>
                                             <Popover
                                                 open={openCategoryComboBox}
@@ -399,9 +404,6 @@ export const QuestionFilter = ({
                             />
                         </div>
                         {error && <p className="text-red-500">{error}</p>}
-                        <Button type="submit" disabled={loading}>
-                            {loading ? "Submitting..." : "Submit"}
-                        </Button>
                     </form>
                 </FormProvider>
             </div>
