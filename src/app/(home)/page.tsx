@@ -128,7 +128,7 @@ export default function Home() {
                             Voir tous les auteurs
                         </Link>
                     </div>
-                    <div className="flex flex-col justify-center md:flex-row md:justify-between pt-12 gap-6 md:gap-16 lg:gap-24">
+                    <div className="flex flex-col justify-center md:flex-row md:justify-between pt-12 gap-6 md:gap-4 lg:gap-24">
                         {authors && (
                             <>
                                 {authors[0] && (
@@ -136,10 +136,10 @@ export default function Home() {
                                         author={authors[0]}
                                         position={1}
                                         key={`best_author_${authors[0].id}`}
-                                        className="justify-center md:justify-start"
+                                        className="justify-center md:justify-start md:pr-1 lg:pr-2 xl:pr-4"
                                     ></AuthorPosition>
                                 )}
-                                <div className="grid grid-cols-2 md:flex md:justify-between">
+                                <div className="grid grid-cols-2 md:flex md:gap-4 md:justify-between md:w-full">
                                     {authors[1] && authors.slice(1).map((a, i) => (
                                         <AuthorPosition
                                             author={a}
