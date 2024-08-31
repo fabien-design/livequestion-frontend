@@ -9,22 +9,22 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Dropzone, ExtFile, FileMosaic } from "@files-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useFormContext } from "react-hook-form";
 
 const FileUploadModal = () => {
     const { setValue } = useFormContext(); // Pour accéder au formulaire global
-    const fileTypes = ["JPG", "PNG", "GIF"];
-
-    const [file, setFile] = useState<File | null>(null); // Stocker l'objet File, pas l'URL Blob
-
     const [files, setFiles] = useState<ExtFile[]>([]);
+
+    useEffect(() => {
+        if(files[0] && files[0].file instanceof File) {
+            setValue("file", files[0].file); // Mettre à jour le champs file dans le formulaire global
+        }
+    },[files]);
     const updateFiles = (incommingFiles:ExtFile[]) => {
         //do something with the files
         setFiles(incommingFiles);
-        //even your own upload implementation
-        setValue("file", files[0].file); // Mettre à jour le champs file dans le formulaire global
     };
     const removeFile = (id: string | number | undefined) => {
         setFiles(files.filter((x: ExtFile) => x.id !== id));
