@@ -27,8 +27,6 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
 ## 🌐 Accès au projet
 
 [Accès au front (en nextjs)](http://127.0.0.1:3000/admin)&nbsp;:
