@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/features/components/Navbar/Navbar";
+
 import Footer from "@/features/components/Footer";
 import Head from "next/head";
 import { UserProvider } from "@/context/UserContext";
+import SideBar from "@/features/components/Sidebar/Sidebar"; // Import the SideBar component
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +24,8 @@ export default function RootLayout({
         <html lang="en">
             <body className="text-black">
                 <UserProvider>
-                    <NavBar />
+                    <NavBar className={"hidden md:flex"} />
+                    <SideBar className={"flex md:hidden"} /> 
                     <main className="min-h-screen bg-gray-50">{children}</main>
                     <Footer />
                 </UserProvider>

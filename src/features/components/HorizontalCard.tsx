@@ -7,9 +7,10 @@ import { CardButton } from "./CardButton";
 type QuestionProps = {
   question: QuestionHome;
   isBig?: boolean;
+  className?: string;
 };
 
-const HorizontalCard = ({ question, isBig = false }: QuestionProps) => {
+const HorizontalCard = ({ question, isBig = false, className }: QuestionProps) => {
   const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const HorizontalCard = ({ question, isBig = false }: QuestionProps) => {
   }, [question.createdAt]);
 
   return (
-    <div className={cn("flex flex-col md:flex-row mb-4 flex-[1,1,auto]", { "md:flex-row": isBig })}>
+    <div className={cn("flex flex-col md:flex-row mb-4 flex-[1,1,auto]", { "md:flex-row": isBig }, className)}>
       <img
         src={
           question.images?.name

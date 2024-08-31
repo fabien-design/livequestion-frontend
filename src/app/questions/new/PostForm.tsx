@@ -64,7 +64,6 @@ const PostForm = ({ categories }: { categories: Category[] }) => {
             const formData = new FormData();
             formData.append("content", values.content);
             formData.append("categoryId", values.category);
-
             if (values.file) {
                 formData.append("file", values.file); // Ajouter directement l'objet File au FormData
             }

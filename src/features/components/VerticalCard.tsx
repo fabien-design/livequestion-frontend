@@ -9,9 +9,10 @@ import { useRouter } from "next/navigation";
 type QuestionProps = {
     question: QuestionHome;
     isBig?: boolean;
+    className?: string;
 };
 
-const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
+const VerticalCard = ({ question, isBig = false, className }: QuestionProps) => {
     const currentDate = new Date();
     const creationDate = new Date(question.createdAt);
     const timeDiff = Math.abs(currentDate.getTime() - creationDate.getTime());
@@ -34,12 +35,12 @@ const VerticalCard = ({ question, isBig = false }: QuestionProps) => {
 
     return (
         <div
-            className={cn("flex flex-col mb-4", {
-                "max-w-[200px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]":
+            className={cn("flex flex-col", {
+                "w-full max-w-[300px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]":
                     !isBig, // 300px max width
-                "max-w-[250px] sm:max-w-[350px] md:max-w-[500px] lg:max-w-[600px]":
+                "w-full max-w-[350px] sm:max-w-[450px] md:max-w-[500px] lg:max-w-[600px]":
                     isBig, // 600px max width
-            })}
+            }, className)}
         >
             <div className="relative">
                 <button

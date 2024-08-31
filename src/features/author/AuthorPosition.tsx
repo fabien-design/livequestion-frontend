@@ -1,14 +1,16 @@
 import React from "react";
 import { UserDetailed } from "../query/user.query";
+import { cn } from "@/lib/utils";
 
 type AuthorPositionProps = {
     author: UserDetailed;
     position: number;
+    className?: string;
 };
 
-export const AuthorPosition = ({ author, position }: AuthorPositionProps) => {
+export const AuthorPosition = ({ author, position, className }: AuthorPositionProps) => {
     return (
-        <div className="flex gap-4 items-center">
+        <div className={cn("flex gap-4 items-center", className)}>
             <span className="text-primary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-semibold">
                 {position}
             </span>

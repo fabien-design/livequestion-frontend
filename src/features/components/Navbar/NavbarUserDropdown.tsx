@@ -82,12 +82,13 @@ export const NavbarUserDropdown = ({
                                 {userDetails?.username[0]}
                             </div>
                         )}
-                        <span className="ml-2">{userDetails.username}</span>
+                        <span className="ml-2 hidden sm:block">{userDetails.username}</span>
                     </div>
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-center sm:hidden">{userDetails.username}</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-center hidden sm:block">Mon Compte</DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem

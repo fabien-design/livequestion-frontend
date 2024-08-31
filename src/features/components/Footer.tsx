@@ -26,14 +26,15 @@ const Footer = () => {
         <footer className="bg-white text-black grid">
             <MaxWidthWrapper className="py-12">
                 <div className="flex flex-col text-center font-Playfair_Display">
-                    <h2 className="text-5xl font-semibold text-primary">Livequestion</h2>
-                    <p className="font-bold text-2xl">Echangez autour de vos thématiques préférées</p>
+                    <h2 className="text-[clamp(20px,15vw,40px)] sm:text-5xl font-semibold text-primary">Livequestion</h2>
+                    <p className="font-bold text-lg sm:text-2xl">Echangez autour de vos thématiques préférées</p>
                 </div>
                 <div className="border-b-2 bg-zinc-500 w-full my-10"></div>
-                <div className="flex justify-between font-semibold text-sm sm:text-lg md:text-xl">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:flex justify-between font-semibold text-lg md:text-xl">
                     {categories && (
                         categories.map((category) => (
-                            <Link href={`/questions?category=${category.id}`} key={`category_${category.id}`}>
+                            <Link href={`/questions?category=${category.id}`} key={`category_${category.id}`}
+                            className="text-center md:text-start">
                                 {category.name}
                             </Link>
                         ))

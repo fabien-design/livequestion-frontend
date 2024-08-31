@@ -9,8 +9,9 @@ import { UserDetail, getUserDetail } from "../../query/user.query";
 import { NavbarUserDropdown } from "./NavbarUserDropdown";
 import { Skeleton } from "@/components/ui/skeleton";
 import UserSkeleton from "./UserSkeleton";
+import { cn } from "@/lib/utils";
 
-const NavBar = () => {
+const NavBar = ({className}: {className?: string}) => {
     const { user } = useUser();
     const [userDetails, setUserDetails] = useState<
         UserDetail | null | undefined
@@ -35,7 +36,7 @@ const NavBar = () => {
     }, [user]);
 
     return (
-        <nav className="bg-primary text-white h-[88px] z-40">
+        <nav className={cn("bg-primary text-white h-[88px] z-40", className)}>
             <MaxWidthWrapper className="flex items-center justify-between py-4">
                 <div className="flex items-center space-x-4">
                     <h1 className="font-bold text-2xl font-Playfair_Display">

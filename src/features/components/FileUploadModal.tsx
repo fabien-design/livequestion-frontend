@@ -8,6 +8,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { Dropzone, ExtFile, FileMosaic } from "@files-ui/react";
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useFormContext } from "react-hook-form";
@@ -18,9 +19,15 @@ const FileUploadModal = () => {
 
     const [file, setFile] = useState<File | null>(null); // Stocker l'objet File, pas l'URL Blob
 
-    const handleChange = (uploadedFile: File) => {
-        setFile(uploadedFile); // Stocker directement le fichier dans l'état local
-        setValue("file", uploadedFile); // Mettre à jour la valeur du fichier dans le formulaire global avec l'objet File
+    const [files, setFiles] = useState<ExtFile[]>([]);
+    const updateFiles = (incommingFiles:ExtFile[]) => {
+        //do something with the files
+        setFiles(incommingFiles);
+        //even your own upload implementation
+        setValue("file", files[0].file); // Mettre à jour le champs file dans le formulaire global
+    };
+    const removeFile = (id: string | number | undefined) => {
+        setFiles(files.filter((x: ExtFile) => x.id !== id));
     };
 
     return (
@@ -35,23 +42,19 @@ const FileUploadModal = () => {
                     <DialogTitle>Upload your picture</DialogTitle>
                 </DialogHeader>
                 <div className="py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <FileUploader
-                            handleChange={handleChange}
-                            name="file"
-                            types={fileTypes}
-                        />
-                        {file && (
-                            <div style={{ marginTop: "20px" }}>
-                                <h4>Image Preview:</h4>
-                                <img
-                                    src={URL.createObjectURL(file)} // Créer une URL Blob pour l'aperçu seulement
-                                    alt="Uploaded Preview"
-                                    style={{ maxWidth: "100%", height: "auto" }}
-                                />
-                            </div>
-                        )}
-                    </div>
+                    <Dropzone
+                        onChange={updateFiles}
+                        value={files}
+                        accept="image/*"
+                        className="w-full"
+                        maxFiles={1}
+                        color="#ad056a"
+                        behaviour="replace"
+                        >
+                        {files.map((file: ExtFile) => (
+                            <FileMosaic key={file.id} {...file} onDelete={removeFile} info={true} preview/>
+                            ))}
+                    </Dropzone>
                 </div>
                 <DialogFooter>
                     <DialogClose>

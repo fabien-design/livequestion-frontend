@@ -12,7 +12,7 @@ type QuestionProps = {
 export const Question = ({ question, className }: QuestionProps) => {
     return (
         <>
-            <Link href={`/questions/${question.id}`} className={cn("w-full", className)}>
+            <Link href={`/questions/${question.id}`} className={cn("w-full mb-4", className)}>
                 <VerticalCard question={question}></VerticalCard>
             </Link>
         </>

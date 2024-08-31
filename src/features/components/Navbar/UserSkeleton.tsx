@@ -7,7 +7,7 @@ export default function UserSkeleton() {
         <Skeleton className="w-10 h-10 rounded-full bg-gray-300" />
         {/* From Uiverse.io by mahendrameghwal */ }
         <div>
-            <div className="w-full gap-x-2 flex justify-center items-center">
+            <div className="hidden sm:flex w-full gap-x-2 justify-center items-center">
                     <div
                         className="w-3 h-3 bg-[#FFF] animate-[pulse_2s_cubic-bezier(0.4,_0,_0.6,_1)_200ms_infinite,_bounce_1s_200ms_infinite] rounded-full"
                     ></div>
