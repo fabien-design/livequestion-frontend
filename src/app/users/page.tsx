@@ -56,7 +56,7 @@ const Page = () => {
                             authors != null ? (
                                 authors.map((author) => (
                                     <Link
-                                        href={`/users/${author.id}`}
+                                        href={`/users/${author.username}`}
                                         key={`user_${author.id}`}
                                     >
                                         <Author

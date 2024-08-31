@@ -20,6 +20,7 @@ export type UserDetail = {
         name: string|null;
     };
     createdAt: string;
+    questionCount: number;
 }
 
 type PaginationProps = {

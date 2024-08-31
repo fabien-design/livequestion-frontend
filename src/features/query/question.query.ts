@@ -69,7 +69,6 @@ export const getQuestions = async (page: number|null=1, title: string|null, cate
     }
 }
 
-
 export const getLatestQuestions = async () => {
     try {
         const response = await fetch(

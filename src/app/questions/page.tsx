@@ -33,11 +33,13 @@ export default async function QuestionsPage({
           <QuestionFilter categories={categories} authors={authors} />
         )}
       </div>
-        {questions && (
+        {questions ? (
           <QuestionsList questions={questions} isLoading={questions.length === 0} />
+        ): (
+          <div className="text-center text-lg text-red-700 font-semibold">Aucune question trouvée</div>
         )}
 
-      {paginationData && (
+      {paginationData && questions && (
         <PaginationComponent
           pagesNumber={paginationData.totalPages}
           currentPageNumber={paginationData.currentPage}

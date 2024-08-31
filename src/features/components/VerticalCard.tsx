@@ -92,7 +92,7 @@ const VerticalCard = ({ question, isBig = false, className }: QuestionProps) => 
                             onClick={(e) => {
                                 e.preventDefault();
                                 router.push(
-                                    `/questions?author=${question.author.username}`
+                                    `/users/${question.author.username}`
                                 );
                             }}
                             className="hover:underline hover:underline-offset-2"

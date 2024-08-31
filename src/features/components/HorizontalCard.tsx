@@ -65,7 +65,7 @@ const HorizontalCard = ({ question, isBig = false, className }: QuestionProps) =
               {question.answersCount}
             </span>{" "}
             réponses - Par{" "}
-            <CardButton href={`/questions?author=${question.author.username}`}>{question.author.username}</CardButton>
+            <CardButton href={`/users/${question.author.username}`}>{question.author.username}</CardButton>
           </p>
         </div>
       </div>

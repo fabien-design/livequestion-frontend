@@ -14,7 +14,7 @@ type PostHeaderProps = {
 export const PostHeader = ({propId, user, createdAt}: PostHeaderProps) => {
     return (
         <Link
-            href={`/users/${user.id}`}
+            href={`/users/${user.username}`}
             className="flex w-full gap-4 items-center group"
         >
             <Avatar>
