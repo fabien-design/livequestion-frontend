@@ -141,7 +141,7 @@ export const QuestionFilter = ({
 
     return (
         <>
-            <div className="p-8 border-2 rounded-2xl bg-gray-100">
+            <div className="py-8 px-4 sm:p-8 border-2 rounded-2xl bg-gray-100">
                 <FormProvider {...form}>
                     <form className="space-y-3">
                         <FormField

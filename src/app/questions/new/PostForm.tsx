@@ -132,7 +132,7 @@ const PostForm = ({ categories }: { categories: Category[] }) => {
                             </FormItem>
                         )}
                     />
-                    <div className="flex gap-4">
+                    <div className="grid gap-2 sm:flex sm:gap-4">
                         <FormField
                             control={form.control}
                             name="content"

@@ -61,10 +61,10 @@ export const PaginationComponent = ({
     const paginationItems = getPaginationItems();
 
     const router = useRouter();
-    if(currentPageNumber > pagesNumber) {
+    if (currentPageNumber > pagesNumber) {
         router.push(`${currentPage}?page=${pagesNumber}`);
         return null;
-    }else if(currentPageNumber < 1) {
+    } else if (currentPageNumber < 1) {
         router.push(`${currentPage}?page=1`);
         return null;
     }
@@ -105,7 +105,7 @@ export const PaginationComponent = ({
                             <PaginationItem
                                 key={`pagination_ellipsis_${index}`}
                             >
-                                <PaginationEllipsis />
+                                <PaginationEllipsis className="h-6 w-6 sm:h-9 sm:w-9" />
                             </PaginationItem>
                         );
                     } else {
@@ -120,6 +120,7 @@ export const PaginationComponent = ({
                                         router.push(href);
                                     }}
                                     isActive={isActive}
+                                    className="h-6 w-6 sm:h-9 sm:w-9" 
                                 >
                                     {item}
                                 </PaginationLink>

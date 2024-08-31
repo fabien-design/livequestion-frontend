@@ -7,7 +7,7 @@ import React, { Suspense } from "react";
 export default async function page() {
 
     return (<>
-    <MaxWidthWrapper className="pt-12">
+    <MaxWidthWrapper className="pt-12 pb-12 sm:pb-6 md:pb-0">
         <h2 className="text-3xl font-bold pb-12">Mes informations</h2>
         
         <UserInfos />

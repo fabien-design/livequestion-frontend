@@ -59,23 +59,24 @@ export default function UserInfos() {
                         )}
                     </div>
                     <div className="md:flex md:justify-evenly">
-                        <p className="flex gap-2">
+                        <p className="flex items-center gap-2">
                             Pseudo:{" "}
-                            <span className="ml-2">{userDetails.username}</span>
+                            <span className="ml-2 text-ellipsis overflow-hidden">{userDetails.username}</span>
                         </p>
-                        <p className="flex gap-2">
+                        <p className="flex items-center gap-2">
                             Email:{" "}
-                            <span className="ml-2">{userDetails.email}</span>
+                            <span className="ml-2 text-ellipsis overflow-hidden">{userDetails.email}</span>
                         </p>
-                        <p className="flex gap-2">
-                            Date de création du compte:{" "}
-                            <span className="ml-2">
+                        <div className="flex gap-2 items-center">
+                            <p className="min-w-[168px]">Date de création du compte:{" "}</p>
+                            
+                            <span className="md:ml-2">
                                 {userDetails.createdAt &&
                                     new Date(
                                         userDetails.createdAt
                                     ).toLocaleDateString("fr")}
                             </span>
-                        </p>
+                        </div>
                     </div>
                 </>
             )}
