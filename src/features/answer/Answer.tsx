@@ -20,7 +20,7 @@ export const Answer = ({ answer }: AnswerProps) => {
                 user={user}
                 createdAt={answer.createdAt}
             />
-            <div className="ml-4 sm:ml-10 flex w-full flex-col gap-2">
+            <div className="pr-1 sm:pr-2 pl-4 sm:pl-10 flex w-full flex-col gap-2">
                 {answer.content}
             </div>
         </div>

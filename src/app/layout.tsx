@@ -24,9 +24,9 @@ export default function RootLayout({
         <html lang="en">
             <body className="text-black">
                 <UserProvider>
-                    <NavBar className={"hidden md:flex"} />
-                    <SideBar className={"flex md:hidden"} /> 
-                    <main className="min-h-screen bg-gray-50">{children}</main>
+                    <NavBar className={"hidden md:flex fixed w-full"} />
+                    <SideBar className={"flex md:hidden fixed w-full"} /> 
+                    <main className="min-h-screen bg-gray-50 pt-[88px]">{children}</main>
                     <Footer />
                 </UserProvider>
             </body>

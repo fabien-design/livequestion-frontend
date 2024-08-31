@@ -48,7 +48,7 @@ const Page = () => {
 
     return (
         <>
-            <MaxWidthWrapper className="pt-20">
+            <MaxWidthWrapper className="pt-12">
                 <h2 className="text-3xl font-bold pb-12">Les auteurs</h2>
 
                 <div className="grid grid-cols-1 gap-4 pb-6">

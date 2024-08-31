@@ -46,7 +46,7 @@ export const QuestionDetailsLayout = ({
             <div className="">
                 <PostForm questionId={question.id} />
             </div>
-            <div className="mt-4 rounded-xl border bg-gray-200">
+            <div className="mt-4 rounded-xl border bg-gray-200 max-h-[600px] pr-4 overflow-y-scroll">
                 {question.answers
                     .sort((a, b) =>
                         String(b.createdAt).localeCompare(String(a.createdAt))

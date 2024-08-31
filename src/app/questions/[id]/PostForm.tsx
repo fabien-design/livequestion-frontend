@@ -74,7 +74,7 @@ const PostForm = ({ questionId }: { questionId: string | number }) => {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Textarea placeholder="Write your message here..." {...field} />
+                                <Textarea placeholder="Commentez ici..." {...field} className="!h-32 bg-gray-200" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

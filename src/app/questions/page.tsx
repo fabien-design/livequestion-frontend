@@ -24,7 +24,7 @@ export default async function QuestionsPage({
   const paginationData = questionsData.pagination;
 
   return (
-    <MaxWidthWrapper className="pt-20">
+    <MaxWidthWrapper className="pt-12">
       <h2 className="text-3xl font-bold pb-12">Les questions</h2>
 
       <h3 className="text-xl">Filtrer les résultats</h3>
