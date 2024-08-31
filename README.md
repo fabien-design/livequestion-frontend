@@ -14,7 +14,7 @@ npm install
 ```
 
 2. ### Modifier le .env.example en .env
-si vous avez changer le port du backend vous devez mettre à jours les variables d'environnement
+(si vous avez changer le port du backend vous devez mettre à jours les variables d'environnement)
 
 3. Initialisez le projet en exécutant une des commandes suivantes
 ```bash
