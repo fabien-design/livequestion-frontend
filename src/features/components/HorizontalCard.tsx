@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { QuestionHome } from "../query/question.query";
 import { CardButton } from "./CardButton";
+import he from 'he';
 
 type QuestionProps = {
   question: QuestionHome;
@@ -58,7 +59,7 @@ const HorizontalCard = ({ question, isBig = false, className }: QuestionProps) =
           <span className="mx-4 font-bold">&#903;</span>
           <p>{timeAgo}</p>
         </div>
-        <h3 className={cn("font-semibold mb-2", { "text-3xl": isBig, "text-lg": !isBig })}>{question.title}</h3>
+        <h3 className={cn("font-semibold mb-2", { "text-3xl": isBig, "text-lg": !isBig })}>{he.decode(question.title)}</h3>
         <div className="flex items-center text-primary">
           <p>
             <span className={cn("font-semibold", { "text-base": isBig, "text-sm": !isBig })}>

@@ -1,9 +1,6 @@
 import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
 import { QuestionHome } from "../query/question.query";
-import { isBigInt64Array } from "util/types";
-import Image from "next/image";
-import Link from "next/link";
+import he from "he";
 import { useRouter } from "next/navigation";
 
 type QuestionProps = {
@@ -75,7 +72,7 @@ const VerticalCard = ({ question, isBig = false, className }: QuestionProps) => 
                         "text-lg": !isBig,
                     })}
                 >
-                    {question.title}
+                    {he.decode(question.title)}
                 </h3>
                 <div className="flex items-center text-primary">
                     <p
