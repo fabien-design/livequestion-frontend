@@ -111,11 +111,11 @@ export default function UserUpdateForm() {
     useEffect(() => {
         if (userDetails) {
             setImageSource(
-                userDetails.avatar.name
+                userDetails?.avatar?.name
                     ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${userDetails.avatar.name}`
                     : "/images/default-avatar-icon.jpg"
             );
-            setUserHaveAnAvatar(userDetails.avatar.name ? true : false);
+            setUserHaveAnAvatar(userDetails?.avatar?.name ? true : false);
         }
     }, [userDetails]);
 
