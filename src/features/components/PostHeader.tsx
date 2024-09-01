@@ -18,7 +18,7 @@ export const PostHeader = ({propId, user, createdAt}: PostHeaderProps) => {
             className="flex w-full gap-4 items-center group"
         >
             <Avatar>
-                {user.avatar.name ? (
+                {user.avatar?.name ? (
                     <AvatarImage
                         src={`${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${user.avatar.name}`}
                         alt="avatar"

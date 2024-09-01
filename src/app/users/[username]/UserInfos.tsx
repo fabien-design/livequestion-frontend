@@ -33,7 +33,7 @@ export const UserInfos = ({ username }: { username: string }) => {
             {userInfos && (
                 <>
                     <div className="w-full flex justify-center pb-6">
-                        {userInfos.avatar.name ? (
+                        {userInfos.avatar?.name ? (
                             <Avatar
                                 src={`${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${userInfos.avatar.name}`}
                                 variant="circle"
