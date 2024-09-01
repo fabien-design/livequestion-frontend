@@ -47,7 +47,7 @@ const VerticalCard = ({ question, isBig = false, className }: QuestionProps) => 
                     onClick={(e) => {
                         e.preventDefault();
                         router.push(
-                            `/questions?category=${question.category.id.toString()}`
+                            `/questions?category=${question.category.name}`
                         );
                     }}
                     className="py-2 px-4 md:px-6 text-white text-center text-sm 

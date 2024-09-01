@@ -33,7 +33,7 @@ const Footer = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:flex justify-between font-semibold text-lg md:text-xl">
                     {categories && (
                         categories.map((category) => (
-                            <Link href={`/questions?category=${category.id}`} key={`category_${category.id}`}
+                            <Link href={`/questions?category=${category.name}`} key={`category_${category.id}`}
                             className="text-center md:text-start">
                                 {category.name}
                             </Link>

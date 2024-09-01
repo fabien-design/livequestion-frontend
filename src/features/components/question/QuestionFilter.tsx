@@ -53,7 +53,7 @@ const formSchema = (categories: Category[], authors: UserDetailed[]) =>
             .refine(
                 (value) =>
                     value === "" ||
-                    categories.some((cat) => cat.id.toString() === value),
+                    categories.some((cat) => cat.name === value),
                 {
                     message: "Invalid category selected.",
                 }
@@ -102,6 +102,7 @@ export const QuestionFilter = ({
     const formValues = useWatch({
         control: form.control,
     });
+    console.log(form.getValues());
 
     useEffect(() => {
         const updateQueryParams = async () => {
@@ -316,7 +317,9 @@ export const QuestionFilter = ({
                                                             ? categories.find(
                                                                   (category) =>
                                                                       category.id.toString() ===
-                                                                      field.value
+                                                                          field.value ||
+                                                                      category.name ===
+                                                                          field.value
                                                               )?.name
                                                             : "Selectionner une catégorie..."}
                                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -370,7 +373,7 @@ export const QuestionFilter = ({
                                                                             onSelect={() => {
                                                                                 form.setValue(
                                                                                     "category",
-                                                                                    category.id.toString()
+                                                                                    category.name
                                                                                 );
                                                                                 setOpenCategoryComboBox(
                                                                                     false
@@ -381,7 +384,9 @@ export const QuestionFilter = ({
                                                                                 className={cn(
                                                                                     "mr-2 h-4 w-4",
                                                                                     field.value ===
-                                                                                        category.id.toString()
+                                                                                        category.name ||
+                                                                                        field.value ===
+                                                                                            category.id.toString()
                                                                                         ? "opacity-100"
                                                                                         : "opacity-0"
                                                                                 )}

@@ -51,7 +51,7 @@ const HorizontalCard = ({ question, isBig = false, className }: QuestionProps) =
         <div className={cn("flex items-center text-black mb-2", { "text-xl": isBig, "text-sm": !isBig })}>
           <CardButton
             className="font-bold ease-in duration-200 z-10 pointer-events-auto"
-            href={`/questions/?category=${question.category.id.toString()}`}
+            href={`/questions/?category=${question.category.name}`}
           >
             {question.category.name}
           </CardButton>

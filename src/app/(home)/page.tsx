@@ -160,7 +160,7 @@ export default function Home() {
                             Dans la thématique "Sport"
                         </h2>
                         <Link
-                            href="/questions?category=1"
+                            href="/questions?category=Sport"
                             className="text-primary font-semibold text-lg sm:text-xl md:text-2xl underline underline-offset-2 items-center"
                         >
                             Voir d'autres questions sur "Sport"
