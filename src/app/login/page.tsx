@@ -6,8 +6,17 @@ import { handleLogin } from "./action";
 import { useUser } from "@/context/UserContext"; // Import the context
 import MaxWidthWrapper from "@/features/components/MaxWidthWrapper";
 import { getUserSession } from "../(home)/action";
+import { Suspense } from "react";
 
 export default function LoginPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginContent />
+        </Suspense>
+    );
+}
+
+function LoginContent() {
     const router = useRouter();
     const { setUser } = useUser(); // Get the setUser function from context
     const searchParams = useSearchParams();
@@ -121,7 +130,7 @@ export default function LoginPage() {
                     </div>
                     <div className="px-8 py-4 bg-gray-700 text-center">
                         <span className="text-gray-400 pr-2">
-                            Don't have an account?
+                            Don`t have an account?
                         </span>
                         <a
                             className="font-medium text-indigo-500 hover:text-indigo-400"

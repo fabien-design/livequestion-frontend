@@ -17,9 +17,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarProps } from "@files-ui/react";
+import { Suspense } from "react";
 
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/avif"];
+
 
 const formSchema = () =>
     z
@@ -56,6 +58,14 @@ const formSchema = () =>
         });
 
 export default function RegisterPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <RegisterContent />
+        </Suspense>
+    );
+}
+
+function RegisterContent() {
     const router = useRouter();
     const { setUser } = useUser(); // Get the setUser function from context
     const searchParams = useSearchParams();

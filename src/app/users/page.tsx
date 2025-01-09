@@ -11,6 +11,7 @@ import { Category, getCategories } from "@/features/query/category.query";
 import { UserDetailed, getAuthors } from "@/features/query/user.query";
 import { Author } from "@/features/author/Author";
 import Loading from "../(home)/loading";
+import { Suspense } from "react";
 
 type PaginationData = {
     currentPage: number;
@@ -19,7 +20,15 @@ type PaginationData = {
     totalPages: number;
 };
 
-const Page = () => {
+export default function Page() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <UsersContent />
+        </Suspense>
+    );
+}
+
+function UsersContent() {
     const searchParams = useSearchParams();
     const page = parseInt(searchParams.get("page") ?? "1");
     const pagination = {page: page};
@@ -84,5 +93,3 @@ const Page = () => {
         </>
     );
 };
-
-export default Page;
