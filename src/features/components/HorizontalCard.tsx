@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { QuestionHome } from "../query/question.query";
 import { CardButton } from "./CardButton";
 import he from 'he';
-import { usePathname } from 'next/navigation';
 
 type QuestionProps = {
   question: QuestionHome;
@@ -13,7 +12,6 @@ type QuestionProps = {
 
 const HorizontalCard = ({ question, isBig = false, className }: QuestionProps) => {
   const [timeAgo, setTimeAgo] = useState("");
-  const pathname = usePathname();
 
   useEffect(() => {
     const currentDate = new Date();
@@ -41,7 +39,7 @@ const HorizontalCard = ({ question, isBig = false, className }: QuestionProps) =
         src={
           question.images?.name
             ? `${process.env.NEXT_PUBLIC_BACKEND_HOST}${process.env.NEXT_PUBLIC_IMAGES_PATH}${question.images?.name}`
-            : `${pathname}/images/question-placeholder.jpg`
+            : `${process.env.NEXT_PUBLIC_BACKEND_HOST}/images/question-placeholder.jpg`
         }
         alt="image of the question"
         className={cn("object-cover w-full rounded-[30px] aspect-[1.6/1]", {
